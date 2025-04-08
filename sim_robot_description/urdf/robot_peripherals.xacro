@@ -19,6 +19,9 @@
                 <mesh filename = 'file://$(find sim_robot_description)/meshes/lidar.STL'/>
             </geometry>
         </collision>
+
+        <!-- NEED LIDAR INERTIA -->
+
     </link>
 
     <!-- lidar to chassis joint -->
@@ -26,6 +29,42 @@
         <origin xyz = '0.0435 5.25826986680105E-05 0.11' rpy = '0 0 0'/>
         <parent link = 'chassis_link'/>
         <child link = 'lidar_link'/>
+    </joint>
+
+    <!-- camera link -->
+    <link name = 'camera_link'>
+        <visual>
+            <origin xyz = '0 0 0' rpy = '0 0 0'/>
+            <geometry>
+                <mesh filename = 'file://$(find sim_robot_description)/meshes/camera.STL'/>
+            </geometry>
+            <material name = 'black'/>
+        </visual>
+
+        <collision>
+            <origin xyz = '0 0 0' rpy = '0 0 0'/>
+            <geometry>
+                <mesh filename = 'file://$(find sim_robot_description)/meshes/camera.STL'/>
+            </geometry>
+        </collision>
+
+        <inertial>
+            <origin xyz = '0 0 0' rpy = '0 0 0'/>
+            <mass value = '0'/>
+            <inertia ixx = '0' 
+                     ixy = '0' 
+                     ixz = '0' 
+                     iyy = '0' 
+                     iyz = '0' 
+                     izz = '0'/>
+        </inertial>
+    </link>
+
+    <!-- camera to chassis joint -->
+    <joint name = 'camera_joint' type = 'fixed'>
+        <origin xyz = '0.057105 1.7948E-05 0.03755' rpy = '0 0 0'/>
+        <parent link = 'chassis_link'/>
+        <child link = 'camera_link'/>
     </joint>
 
 </robot>
