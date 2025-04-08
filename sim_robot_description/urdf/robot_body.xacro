@@ -1,7 +1,7 @@
-<?xml version="1.0"?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+<?xml version = '1.0'?>
+<robot xmlns:xacro = 'http://www.ros.org/wiki/xacro'>
 
-    <!-- properties -->
+    <!-- PROPERTIES -->
     <xacro:property name='a' value='4'/>
 
     <material name = 'black'>
@@ -11,6 +11,8 @@
     <material name = 'green'>
         <color rgba = '0 0.7 0 1'/>
     </material>
+
+    <!-- BASE LINK & JOINTS-->
 
     <!-- base link -->
     <link name = 'base_link'>
@@ -38,16 +40,15 @@
         </collision>
 
         <inertial>
-            <origin xyz="0.00498197982182523 5.70233829969297E-05 -0.0121008098068578" rpy="0 0 0"/>
-            <!-- <mass value="0.486218814966626"/> -->
-            <mass value="2.415"/> <!--corrected mass value measured w/o wheels-->
+            <origin xyz = '0.00498197982182523 5.70233829969297E-05 -0.0121008098068578' rpy = '0 0 0'/>
+            <mass value = '2.415'/> <!--corrected mass value measured without wheels-->
             <inertia
-                    ixx="${a*0.00196277727666921}"
-                    ixy="${a*2.50447049446755E-07}"
-                    ixz="${a*0.000140534767811098}"
-                    iyy="${a*0.00457256033711368}"
-                    iyz="${a*2.68618064993882E-07}"
-                    izz="${a*0.00493927269870476}"/>
+                    ixx = '${a*0.00196277727666921}'
+                    ixy = '${a*2.50447049446755E-07}'
+                    ixz = '${a*0.000140534767811098}'
+                    iyy = '${a*0.00457256033711368}'
+                    iyz = '${a*2.68618064993882E-07}'
+                    izz = '${a*0.00493927269870476}'/>
         </inertial>
     </link>
 
@@ -59,10 +60,150 @@
     </joint>
 
     <!-- imu to chassis joint -->
-    <joint name="base_imu" type="fixed">
-        <parent link="chassis_link"/>
-        <child link="imu_link"/>
-        <origin xyz="-0.06 0.01 0.01" rpy="0 3.1415 1.5707"/>
+    <joint name = 'base_imu' type = 'fixed'>
+        <parent link = 'chassis_link'/>
+        <child link = 'imu_link'/>
+        <origin xyz = '-0.06 0.01 0.01' rpy = '0 3.1415 1.5707'/>
     </joint>
 
+    <!--WHEEL LINKS & JOINTS-->
+    <link name = 'front_right_wheel_link'>
+        <visual>
+            <origin xyz = '0 0 0' rpy = '0 0 0'/>
+            <geometry>
+                <mesh filename = 'file://$(find sim_robot_description)/meshes/front_right_wheel.STL'/>
+            </geometry>
+            <material name = 'green'/>
+        </visual>
+
+        <collision>
+            <origin xyz = '0 0 0' rpy = '0 0 0'/>
+            <geometry>
+                <mesh filename = 'file://$(find sim_robot_description)/meshes/front_right_wheel.STL'/>
+            </geometry>
+        </collision>
+
+        <inertial>
+            <origin xyz = '1.9051E-06 -2.3183E-07 -0.00064079' rpy = '0 0 0'/>
+            <mass value = '0.051532'/>
+            <inertia ixx = '${a*1.4595E-05}' 
+                     ixy = '${a*-4.3975E-10}' 
+                     ixz = '${a*4.415E-10}'
+                     iyy = '${a*1.4594E-05}' 
+                     iyz = '${a*-1.7476E-09}' 
+                     izz = '${a*2.4264E-05}'/>
+        </inertial>
+    </link>
+
+    <joint name = 'front_right_joint' type = 'continuous'>
+        <origin xyz = '0.08 -0.0845 -0.0389' rpy = '-1.5703 0 3.14159'/>
+        <parent link = 'chassis_link'/>
+        <child link = 'front_right_wheel_link'/>
+        <axis xyz = '0 0 1' rpy = '0 0 0'/>
+    </joint>
+
+    <link name = 'front_left_wheel_link'>
+        <visual>
+            <origin xyz = '0 0 0' rpy = '0 0 0'/>
+            <geometry>
+                <mesh filename = 'file://$(find sim_robot_description)/meshes/front_left_wheel.STL'/>
+            </geometry>
+            <material name = 'green'/>
+        </visual>
+
+        <collision>
+            <origin xyz = '0 0 0' rpy = '0 0 0'/>
+            <geometry>
+                <mesh filename = 'file://$(find sim_robot_description)/meshes/front_left_wheel.STL'/>
+            </geometry>
+        </collision>
+
+        <inertial>
+            <origin xyz = '2.3728E-06 -9.4228E-07 0.00064068' rpy = '0 0 0'/>
+            <mass value = '0.051543'/>
+            <inertia ixx = '${a*1.4597E-05}' 
+                     ixy = '${a*-4.7945E-10}' 
+                     ixz = '${a*-2.4786E-10}'
+                     iyy = '${a*1.4598E-05}' 
+                     iyz = '${a*1.7972E-09}' 
+                     izz = '${a*2.4267E-05}'/>
+        </inertial>
+    </link>
+
+    <joint name = 'front_left_joint' type = 'continuous'>
+        <origin xyz = '0.08 0.084492 -0.0389' rpy = '1.5703 0 0'/>
+        <parent link = 'chassis_link'/>
+        <child link = 'front_left_wheel_link'/>
+        <axis xyz = '0 0 1' rpy = '0 0 0'/>
+    </joint>
+
+    <link name = 'back_right_wheel_link'>
+        <visual>
+            <origin xyz = '0 0 0' rpy = '0 0 0'/>
+            <geometry>
+                <mesh filename = 'file://$(find sim_robot_description)/meshes/back_right_wheel.STL'/>
+            </geometry>
+            <material name = 'green'/>
+        </visual>
+
+        <collision>
+            <origin xyz = '0 0 0' rpy = '0 0 0'/>
+            <geometry>
+                <mesh filename = 'file://$(find sim_robot_description)/meshes/back_right_wheel.STL'/>
+            </geometry>
+        </collision>
+
+        <inertial>
+            <origin xyz = '-1.75924169923403E-06 1.28388821071107E-06 -0.000590549296238266' rpy = '0 0 0'/>
+            <mass value = '0.051540174053366'/>
+            <inertia ixx = '${a*1.45974152250002E-05}' 
+                     ixy = '${a*1.94850559178397E-10}' 
+                     ixz = '${a*-1.61846387282284E-09}'
+                     iyy = '${a*1.4596501955693E-05}' 
+                     iyz = '${a*-6.27904057423818E-10}' 
+                     izz = '${a*2.42663091380451E-05}'/>
+        </inertial>
+    </link>
+
+    <joint name = 'back_right_joint' type = 'continuous'>
+        <origin xyz = '-0.08 -0.0845 -0.03946' rpy = '-1.57 0 3.14159'/>
+        <parent link = 'chassis_link'/>
+        <child link = 'back_right_wheel_link'/>
+        <axis xyz = '0 0 1' rpy = '0 0 0'/>
+    </joint>
+
+    <link name = 'back_left_wheel_link'>
+        <visual>
+            <origin xyz = '0 0 0' rpy = '0 0 0'/>
+            <geometry>
+                <mesh filename = 'file://$(find sim_robot_description)/meshes/back_left_wheel.STL'/>
+            </geometry>
+            <material name = 'green'/>
+        </visual>
+
+        <collision>
+            <origin xyz = '0 0 0' rpy = '0 0 0'/>
+            <geometry>
+                <mesh filename = 'file://$(find sim_robot_description)/meshes/back_left_wheel.STL'/>
+            </geometry>
+        </collision>
+
+        <inertial>
+            <origin xyz = '-4.01213085227115E-07 2.04910264598596E-06 0.000590775697051377' rpy = '0 0 0'/>
+            <mass value = '0.0515309299357028'/>
+            <inertia ixx = '${a*1.45942986129926E-05}' 
+                     ixy = '${a*-3.19787215398093E-10}' 
+                     ixz = '${a*1.74943062058915E-09}'
+                     iyy = '${a*1.45948727598913E-05}' 
+                     iyz = '${a*1.61769812110049E-10}'
+                     izz = '${a*2.4263683888153E-05}'/>
+        </inertial>
+    </link>
+
+    <joint name = 'back_left_joint' type = 'continuous'>
+        <origin xyz = '-0.08 0.084492 -0.03954' rpy = '1.5703 0 0'/>
+        <parent link = 'chassis_link'/>
+        <child link = 'back_left_wheel_link'/>
+        <axis xyz = '0 0 1' rpy = '0 0 0'/>
+    </joint>
 </robot>
