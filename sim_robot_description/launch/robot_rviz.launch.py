@@ -22,7 +22,7 @@ from launch_ros.parameter_descriptions import ParameterValue
 def generate_launch_description():
     # paths & params:
     pkg_path = os.path.join(get_package_share_directory('sim_robot_description'))
-    # rviz_config_path = os.path.join(pkg_path, 'config', 'rviz_config.rviz')
+    rviz_config_path = os.path.join(pkg_path, 'config', 'rviz_config.rviz')
     xacro_path = os.path.join(pkg_path, 'urdf', 'robot.urdf.xacro')
 
     robot_description_config = Command(['xacro ', xacro_path])
@@ -47,7 +47,7 @@ def generate_launch_description():
         executable = 'rviz2',
         name = 'rviz2',
         output = 'screen',
-        # arguments = ['-d', rviz_config_path]
+        arguments = ['-d', rviz_config_path],
         parameters = [{'use_sim_time': False}]
     )
 
