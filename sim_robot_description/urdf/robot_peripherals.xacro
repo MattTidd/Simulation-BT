@@ -1,0 +1,31 @@
+<?xml version = '1.0'?>
+<robot xmlns:xacro = 'http://www.ros.org/wiki/xacro'>
+
+    <!--            PERIPHERALS & JOINTS             -->
+
+    <!-- lidar link -->
+    <link name = 'lidar_link'>
+        <visual>
+            <origin xyz = '0 0 0' rpy = '0 0 0'/>
+            <geometry>
+                <mesh filename = 'file://$(find sim_robot_description)/meshes/lidar.STL'/>
+            </geometry>
+            <material name = 'gray'/>
+        </visual>
+
+        <collision>
+            <origin xyz = '0 0 0' rpy = '0 0 0'/>
+            <geometry>
+                <mesh filename = 'file://$(find sim_robot_description)/meshes/lidar.STL'/>
+            </geometry>
+        </collision>
+    </link>
+
+    <!-- lidar to chassis joint -->
+    <joint name = 'lidar_joint' type = 'fixed'>
+        <origin xyz = '0.0435 5.25826986680105E-05 0.11' rpy = '0 0 0'/>
+        <parent link = 'chassis_link'/>
+        <child link = 'lidar_link'/>
+    </joint>
+
+</robot>
