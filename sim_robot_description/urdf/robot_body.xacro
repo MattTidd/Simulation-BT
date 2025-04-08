@@ -13,6 +13,10 @@
         <color rgba = '0 0.7 0 1'/>
     </material>
 
+    <material name = 'gray'>
+        <color rgba = '0.83 0.83 0.83 1'/>
+    </material>
+
     <!--            BASE LINK & JOINTS           -->
 
     <!-- base link -->
@@ -76,7 +80,7 @@
             <geometry>
                 <mesh filename = 'file://$(find sim_robot_description)/meshes/front_right_wheel.STL'/>
             </geometry>
-            <material name = 'green'/>
+            <material name = 'black'/>
         </visual>
 
         <collision>
@@ -114,7 +118,7 @@
             <geometry>
                 <mesh filename = 'file://$(find sim_robot_description)/meshes/front_left_wheel.STL'/>
             </geometry>
-            <material name = 'green'/>
+            <material name = 'black'/>
         </visual>
 
         <collision>
@@ -152,7 +156,7 @@
             <geometry>
                 <mesh filename = 'file://$(find sim_robot_description)/meshes/back_right_wheel.STL'/>
             </geometry>
-            <material name = 'green'/>
+            <material name = 'black'/>
         </visual>
 
         <collision>
@@ -190,7 +194,7 @@
             <geometry>
                 <mesh filename = 'file://$(find sim_robot_description)/meshes/back_left_wheel.STL'/>
             </geometry>
-            <material name = 'green'/>
+            <material name = 'black'/>
         </visual>
 
         <collision>
