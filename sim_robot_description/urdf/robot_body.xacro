@@ -16,6 +16,10 @@
     <link name = 'base_link'>
     </link>
 
+    <!-- imu link -->
+    <link name = 'imu_link'>
+    </link>
+
     <!-- chassis link -->
     <link name = 'chassis_link'>
         <visual>
@@ -32,6 +36,19 @@
                 <mesh filename = 'file://$(find sim_robot_description)/meshes/chassis.STL'/>
             </geometry>
         </collision>
+
+        <inertial>
+            <origin xyz="0.00498197982182523 5.70233829969297E-05 -0.0121008098068578" rpy="0 0 0"/>
+            <!-- <mass value="0.486218814966626"/> -->
+            <mass value="2.415"/> <!--corrected mass value measured w/o wheels-->
+            <inertia
+                    ixx="${a*0.00196277727666921}"
+                    ixy="${a*2.50447049446755E-07}"
+                    ixz="${a*0.000140534767811098}"
+                    iyy="${a*0.00457256033711368}"
+                    iyz="${a*2.68618064993882E-07}"
+                    izz="${a*0.00493927269870476}"/>
+        </inertial>
     </link>
 
     <!-- chassis to base link joint -->
@@ -39,6 +56,13 @@
         <parent link = 'base_link'/>
         <child link = 'chassis_link'/>
         <origin xyz = '0.0 0.0 0.07115' rpy = '0 0 0'/>
+    </joint>
+
+    <!-- imu to chassis joint -->
+    <joint name="base_imu" type="fixed">
+        <parent link="chassis_link"/>
+        <child link="imu_link"/>
+        <origin xyz="-0.06 0.01 0.01" rpy="0 3.1415 1.5707"/>
     </joint>
 
 </robot>
