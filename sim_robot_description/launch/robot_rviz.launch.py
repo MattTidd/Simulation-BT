@@ -15,13 +15,9 @@
 import os
 from launch import LaunchDescription
 from ament_index_python.packages import get_package_share_directory
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
-from launch.substitutions import LaunchConfiguration, Command
+from launch.substitutions import Command
 from launch_ros.actions import Node
-from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.parameter_descriptions import ParameterValue
-from launch.actions import RegisterEventHandler
-from launch.event_handlers import OnProcessStart
 
 def generate_launch_description():
     # paths & params:
@@ -30,22 +26,20 @@ def generate_launch_description():
     xacro_path = os.path.join(pkg_path, 'urdf', 'robot.urdf.xacro')
 
     robot_description_config = Command(['xacro ', xacro_path])
-    rsp_params = {'robot_description': ParameterValue(robot_description_config, value_type = str), 'use_sim_time': 'false'}
-
+    rsp_params = {'robot_description': ParameterValue(robot_description_config, value_type = str), 'use_sim_time': False}
 
     # nodes:
     robot_state_publisher = Node(
         package = 'robot_state_publisher',
         executable = 'robot_state_publisher',
         output = 'screen',
-        parameters = rsp_params
-
+        parameters = [rsp_params]
     )
 
     joint_state_publisher = Node(
         package = 'joint_state_publisher_gui',
         executable = 'joint_state_publisher_gui',
-        parameters = [{'use_sim_time': 'false'}]
+        parameters = [{'use_sim_time': False}]
     )
 
     rviz = Node(
@@ -54,9 +48,9 @@ def generate_launch_description():
         name = 'rviz2',
         output = 'screen',
         # arguments = ['-d', rviz_config_path]
-        parameters = [{'use_sim_time': 'false'}]
-
+        parameters = [{'use_sim_time': False}]
     )
+
     # launch:
     return LaunchDescription([
         robot_state_publisher,
