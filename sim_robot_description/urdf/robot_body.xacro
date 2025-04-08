@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- properties -->
+    <xacro:property name='a' value='4'/>
+
+    <material name = 'black'>
+        <color rgba = '0.1 0.1 0.1 1'/>
+    </material>
+
+    <material name = 'green'>
+        <color rgba = '0 0.7 0 1'/>
+    </material>
+
+    <!-- base link -->
+    <link name = 'base_link'>
+    </link>
+
+    <!-- chassis link -->
+    <link name = 'chassis_link'>
+        <visual>
+            <origin xyz = '0 0 0' rpy = '0 0 0'/>
+            <geometry>
+                <mesh filename = 'file://$(find sim_robot_description)/meshes/chassis.STL'/>
+            </geometry>
+            <material name = 'green'/>
+        </visual>
+
+        <collision>
+            <origin xyz = '0 0 0' rpy = '0 0 0'/>
+            <geometry>
+                <mesh filename = 'file://$(find sim_robot_description)/meshes/chassis.STL'/>
+            </geometry>
+        </collision>
+    </link>
+
+    <!-- chassis to base link joint -->
+    <joint name = 'base_joint' type = 'fixed'>
+        <parent link = 'base_link'/>
+        <child link = 'chassis_link'/>
+        <origin xyz = '0.0 0.0 0.07115' rpy = '0 0 0'/>
+    </joint>
+
+</robot>
