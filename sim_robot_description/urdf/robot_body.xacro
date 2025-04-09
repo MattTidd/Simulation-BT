@@ -45,7 +45,6 @@
         </collision>
 
         <inertial>
-            <origin xyz = '0.00498197982182523 5.70233829969297E-05 -0.0121008098068578' rpy = '0 0 0'/>
             <mass value = '2.415'/> <!--corrected mass value measured without wheels-->
             <inertia
                     ixx = '${a*0.00196277727666921}'
@@ -91,7 +90,6 @@
         </collision>
 
         <inertial>
-            <origin xyz = '1.9051E-06 -2.3183E-07 -0.00064079' rpy = '0 0 0'/>
             <mass value = '0.051532'/>
             <inertia ixx = '${a*1.4595E-05}' 
                      ixy = '${a*-4.3975E-10}' 
@@ -129,7 +127,6 @@
         </collision>
 
         <inertial>
-            <origin xyz = '2.3728E-06 -9.4228E-07 0.00064068' rpy = '0 0 0'/>
             <mass value = '0.051543'/>
             <inertia ixx = '${a*1.4597E-05}' 
                      ixy = '${a*-4.7945E-10}' 
@@ -167,7 +164,6 @@
         </collision>
 
         <inertial>
-            <origin xyz = '-1.75924169923403E-06 1.28388821071107E-06 -0.000590549296238266' rpy = '0 0 0'/>
             <mass value = '0.051540174053366'/>
             <inertia ixx = '${a*1.45974152250002E-05}' 
                      ixy = '${a*1.94850559178397E-10}' 
@@ -205,7 +201,6 @@
         </collision>
 
         <inertial>
-            <origin xyz = '-4.01213085227115E-07 2.04910264598596E-06 0.000590775697051377' rpy = '0 0 0'/>
             <mass value = '0.0515309299357028'/>
             <inertia ixx = '${a*1.45942986129926E-05}' 
                      ixy = '${a*-3.19787215398093E-10}' 
