@@ -105,7 +105,7 @@
         <origin xyz = '0.08 -0.0845 -0.0389' rpy = '-1.5703 0 3.14159'/>
         <parent link = 'chassis_link'/>
         <child link = 'front_right_wheel_link'/>
-        <axis xyz = '0 0 1' rpy = '0 0 0'/>
+        <axis xyz = '0 0 -1' rpy = '0 0 0'/>
         <dynamics damping = '${d}'/>
     </joint>
 
@@ -142,7 +142,7 @@
         <origin xyz = '0.08 0.084492 -0.0389' rpy = '1.5703 0 0'/>
         <parent link = 'chassis_link'/>
         <child link = 'front_left_wheel_link'/>
-        <axis xyz = '0 0 1' rpy = '0 0 0'/>
+        <axis xyz = '0 0 -1' rpy = '0 0 0'/>
         <dynamics damping = '${d}'/>
     </joint>
 
@@ -179,7 +179,7 @@
         <origin xyz = '-0.08 -0.0845 -0.03946' rpy = '-1.57 0 3.14159'/>
         <parent link = 'chassis_link'/>
         <child link = 'back_right_wheel_link'/>
-        <axis xyz = '0 0 1' rpy = '0 0 0'/>
+        <axis xyz = '0 0 -1' rpy = '0 0 0'/>
         <dynamics damping = '${d}'/>
     </joint>
 
@@ -216,7 +216,7 @@
         <origin xyz = '-0.08 0.084492 -0.03954' rpy = '1.5703 0 0'/>
         <parent link = 'chassis_link'/>
         <child link = 'back_left_wheel_link'/>
-        <axis xyz = '0 0 1' rpy = '0 0 0'/>
+        <axis xyz = '0 0 -1' rpy = '0 0 0'/>
         <dynamics damping = '${d}'/>
     </joint>
 </robot>
