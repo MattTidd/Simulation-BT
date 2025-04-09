@@ -12,6 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""
+
+This launch file simply launches a robot within RVIZ for visualization purposes.
+
+"""
+
 import os
 from launch import LaunchDescription
 from ament_index_python.packages import get_package_share_directory
