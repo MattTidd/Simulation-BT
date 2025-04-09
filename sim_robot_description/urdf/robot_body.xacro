@@ -85,7 +85,7 @@
         <collision>
             <origin xyz = '0 0 0' rpy = '0 0 0'/>
             <geometry>
-                <mesh filename = 'file://$(find sim_robot_description)/meshes/front_right_wheel.STL'/>
+                <cylinder radius = '0.03115' length = '0.03035'/>
             </geometry>
         </collision>
 
@@ -122,7 +122,7 @@
         <collision>
             <origin xyz = '0 0 0' rpy = '0 0 0'/>
             <geometry>
-                <mesh filename = 'file://$(find sim_robot_description)/meshes/front_left_wheel.STL'/>
+                <cylinder radius = '0.03115' length = '0.03035'/>
             </geometry>
         </collision>
 
@@ -159,7 +159,7 @@
         <collision>
             <origin xyz = '0 0 0' rpy = '0 0 0'/>
             <geometry>
-                <mesh filename = 'file://$(find sim_robot_description)/meshes/back_right_wheel.STL'/>
+                <cylinder radius = '0.03115' length = '0.03035'/>
             </geometry>
         </collision>
 
@@ -196,7 +196,7 @@
         <collision>
             <origin xyz = '0 0 0' rpy = '0 0 0'/>
             <geometry>
-                <mesh filename = 'file://$(find sim_robot_description)/meshes/back_left_wheel.STL'/>
+                <cylinder radius = '0.03115' length = '0.03035'/>
             </geometry>
         </collision>
 
