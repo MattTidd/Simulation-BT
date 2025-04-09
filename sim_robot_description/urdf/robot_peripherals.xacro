@@ -6,27 +6,35 @@
     <!-- lidar link -->
     <link name = 'lidar_link'>
         <visual>
-            <origin xyz = '0 0 0' rpy = '0 0 0'/>
+            <origin xyz = '0 0 0' rpy = '1.570796 0 1.570796'/>
             <geometry>
-                <mesh filename = 'file://$(find sim_robot_description)/meshes/lidar.STL'/>
+                <mesh filename = 'file://$(find sim_robot_description)/meshes/lidar.STL' scale = '0.001 0.001 0.001'/>
             </geometry>
-            <material name = 'gray'/>
+            <material name = 'black'/>
         </visual>
 
         <collision>
-            <origin xyz = '0 0 0' rpy = '0 0 0'/>
+            <origin xyz = '0 0 0' rpy = '1.570796 0 1.570796'/>
             <geometry>
-                <mesh filename = 'file://$(find sim_robot_description)/meshes/lidar.STL'/>
+                <mesh filename = 'file://$(find sim_robot_description)/meshes/lidar.STL' scale = '0.001 0.001 0.001'/>
             </geometry>
         </collision>
 
-        <!-- NEED LIDAR INERTIA -->
+        <inertial>
+            <mass value = '0.19'/>
+            <inertia ixx = '1.244076063E-4' 
+                     ixy = '0' 
+                     ixz = '0' 
+                     iyy = '1.244076063E-4' 
+                     iyz = '0' 
+                     izz = '2.0102E-4'/>
+        </inertial>
 
     </link>
 
     <!-- lidar to chassis joint -->
     <joint name = 'lidar_joint' type = 'fixed'>
-        <origin xyz = '0.0435 5.25826986680105E-05 0.11' rpy = '0 0 0'/>
+        <origin xyz = '0.0405 5.25826986680105E-05 0.08285' rpy = '0 0 0'/>
         <parent link = 'chassis_link'/>
         <child link = 'lidar_link'/>
     </joint>
@@ -49,7 +57,6 @@
         </collision>
 
         <inertial>
-            <origin xyz = '0 0 0' rpy = '0 0 0'/>
             <mass value = '0'/>
             <inertia ixx = '0' 
                      ixy = '0' 
