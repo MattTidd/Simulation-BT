@@ -7,7 +7,6 @@ Panels:
         - /Global Options1
         - /Status1
         - /RobotModel1
-        - /TF1
         - /TF1/Frames1
       Splitter Ratio: 0.5
     Tree Height: 653
@@ -77,10 +76,6 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        imu_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
       Mass Properties:
         Inertia: false
         Mass: false
@@ -98,8 +93,6 @@ Visualization Manager:
           Value: true
         chassis_link:
           Value: true
-        imu_link:
-          Value: true
       Marker Scale: 0.20000000298023224
       Name: TF
       Show Arrows: true
@@ -108,8 +101,7 @@ Visualization Manager:
       Tree:
         base_link:
           chassis_link:
-            imu_link:
-              {}
+            {}
       Update Interval: 0
       Value: true
   Enabled: true
