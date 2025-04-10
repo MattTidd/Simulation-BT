@@ -62,6 +62,19 @@ def generate_launch_description():
                                    '-entity', 'MRP'],
                         output='screen')
     
+    joint_controller = Node(
+        package = 'controller_manager',
+        executable = 'spawner',
+        arguments = ['joint_state_broadcaster']
+    )
+
+    mecanum_drive_controller = Node(
+        package = 'controller_manager',
+        executable = 'spawner',
+        name = 'mecanum_drive_controller',
+        arguments = ['mecanum_drive_controller'],
+    )
+    
     joy_node = Node(
         package = 'joy',
         executable = 'joy_node',
@@ -73,13 +86,16 @@ def generate_launch_description():
         package = 'teleop_twist_joy',
         executable = 'teleop_node',
         name = 'teleop_node',
-        parameters = [joy_params_path]
+        parameters = [joy_params_path],
+        # remappings = [('/cmd_vel', '/mecanum_drive_controller/reference_unstamped')]
     )
 
     return LaunchDescription([
         robot_state_publisher,
         gazebo, 
         spawn_entity,
+        # joint_controller,
+        # mecanum_drive_controller,
         joy_node, 
         teleop_node
     ])
