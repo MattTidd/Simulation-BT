@@ -1,7 +1,7 @@
 <?xml version = '1.0'?>
 <robot xmlns:xacro = 'http://www.ros.org/wiki/xacro'>
     <!-- PROPERTIES -->
-    <xacro:property name = 'a' value = '4'/>    <!--scalar used for inertia -->
+    <xacro:property name = 'a' value = '1'/>    <!--scalar used for inertia -->
     <xacro:property name = 'd' value = '0.5'/>  <!--scalar used for damping -->
 
     <material name = 'black'>
@@ -19,23 +19,23 @@
     <!-- MACROS -->
     <xacro:macro name = 'cylinder_inertia' params = 'mass radius length'>
         <inertia
-            ixx = '${mass * (3 * radius**2 + length**2) / 12}'
+            ixx = '${a * mass * (3 * radius**2 + length**2) / 12}'
             ixy = '0'
             ixz = '0'
-            iyy = '${mass * (3 * radius**2 + length**2) / 12}'
+            iyy = '${a * mass * (3 * radius**2 + length**2) / 12}'
             iyz = '0'
-            izz = '${mass * radius**2 / 12}'
+            izz = '${a * mass * radius**2 / 12}'
         />
     </xacro:macro>
 
     <xacro:macro name = 'box_inertia' params = 'mass w h d'>
         <inertia
-            ixx = '${mass * (h**2 + d**2) / 12}'
+            ixx = '${a * mass * (h**2 + d**2) / 12}'
             ixy = '0'
             ixz = '0'
-            iyy = '${mass * (w**2 + h**2) / 12}'
+            iyy = '${a * mass * (w**2 + h**2) / 12}'
             iyz = '0'
-            izz = '${mass * (w**2 + d**2) / 12}'
+            izz = '${a * mass * (w**2 + d**2) / 12}'
         />
     </xacro:macro>
 
@@ -76,7 +76,7 @@
     <joint name = 'base_joint' type = 'fixed'>
         <parent link = 'base_link'/>
         <child link = 'chassis_link'/>
-        <origin xyz = '0 0 0.07115' rpy = '0 0 0'/>
+        <origin xyz = '0 0 0.07115' rpy = '0 0 0'/> <!-- origin offset of 0.07115 -->
     </joint>
 
     <!-- WHEEL LINKS & JOINTS -->
