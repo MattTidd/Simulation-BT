@@ -4,7 +4,7 @@
     <!-- include files -->
     <xacro:include filename = 'robot_body_testing.xacro'/>
     <!-- <xacro:include filename = 'robot_body.xacro'/> -->
-    <!-- <xacro:include filename = 'robot_peripherals.xacro'/> -->
-    <!-- <xacro:include filename = 'robot_gazebo_properties.xacro'/> -->
+    <xacro:include filename = 'robot_peripherals.xacro'/>
+    <xacro:include filename = 'robot_gazebo_properties.xacro'/>
 
 </robot>
