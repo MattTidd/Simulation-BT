@@ -1,9 +1,9 @@
 <?xml version = '1.0'?>
 <robot xmlns:xacro = 'http://www.ros.org/wiki/xacro'>
-
     <!-- PROPERTIES -->
-    <xacro:property name = 'a' value = '4'/>    <!--scalar used for inertia -->
-    <xacro:property name = 'd' value = '0.5'/>  <!--scalar used for damping -->
+    <xacro:property name = 'a' value = '1.0'/>      <!-- scalar used for inertia -->
+    <xacro:property name = 'd' value = '0.3'/>      <!-- scalar used for damping -->
+    <xacro:property name = 'o' value = '0.000'/>    <!-- tuneable offset for wheel collision -->
 
     <material name = 'black'>
         <color rgba = '0.1 0.1 0.1 1'/>
@@ -17,14 +17,32 @@
         <color rgba = '0.83 0.83 0.83 1'/>
     </material>
 
-    <!--            BASE LINK & JOINTS           -->
+    <!-- MACROS -->
+    <xacro:macro name = 'cylinder_inertia' params = 'mass radius length'>
+        <inertia
+            ixx = '${a * mass * (3 * radius**2 + length**2) / 12}'
+            ixy = '0'
+            ixz = '0'
+            iyy = '${a * mass * (3 * radius**2 + length**2) / 12}'
+            iyz = '0'
+            izz = '${a * mass * radius**2 / 12}'
+        />
+    </xacro:macro>
 
+    <xacro:macro name = 'box_inertia' params = 'mass w h d'>
+        <inertia
+            ixx = '${a * mass * (h**2 + d**2) / 12}'
+            ixy = '0'
+            ixz = '0'
+            iyy = '${a * mass * (w**2 + h**2) / 12}'
+            iyz = '0'
+            izz = '${a * mass * (w**2 + d**2) / 12}'
+        />
+    </xacro:macro>
+
+    <!-- BASE LINK & CHASSIS LINK -->
     <!-- base link -->
     <link name = 'base_link'>
-    </link>
-
-    <!-- imu link -->
-    <link name = 'imu_link'>
     </link>
 
     <!-- chassis link -->
@@ -38,40 +56,31 @@
         </visual>
 
         <collision>
-            <origin xyz = '0 0 0' rpy = '0 0 0'/>
+            <origin xyz = '0.00475 0 0.004' rpy = '0 0 0'/>   <!-- collision box moved to match visual -->
             <geometry>
-                <mesh filename = 'file://$(find sim_robot_description)/meshes/chassis.STL'/>
+                <box size = '0.2235 0.139 0.1165'/>  
             </geometry>
         </collision>
 
         <inertial>
-            <mass value = '2.415'/> <!--corrected mass value measured without wheels-->
-            <inertia
-                    ixx = '${a*0.00196277727666921}'
-                    ixy = '${a*2.50447049446755E-07}'
-                    ixz = '${a*0.000140534767811098}'
-                    iyy = '${a*0.00457256033711368}'
-                    iyz = '${a*2.68618064993882E-07}'
-                    izz = '${a*0.00493927269870476}'/>
+            <mass value = '2.415'/>
+            <xacro:box_inertia
+                mass = '2.415'
+                w = '0.2235'
+                h = '0.1165'
+                d = '0.139'
+            />
         </inertial>
     </link>
 
-    <!-- chassis to base link joint -->
+    <!-- chassis to base joint -->
     <joint name = 'base_joint' type = 'fixed'>
         <parent link = 'base_link'/>
         <child link = 'chassis_link'/>
-        <origin xyz = '0.0 0.0 0.07115' rpy = '0 0 0'/>
+        <origin xyz = '0 0 0.07115' rpy = '0 0 0'/> <!-- origin offset of 0.07115 -->
     </joint>
 
-    <!-- imu to chassis joint -->
-    <joint name = 'base_imu' type = 'fixed'>
-        <parent link = 'chassis_link'/>
-        <child link = 'imu_link'/>
-        <origin xyz = '-0.06 0.01 0.01' rpy = '0 3.1415 1.5707'/>
-    </joint>
-
-    <!--            WHEEL LINKS & JOINTS             -->
-
+    <!-- WHEEL LINKS & JOINTS -->
     <!-- front right wheel link -->
     <link name = 'front_right_wheel_link'>
         <visual>
@@ -83,20 +92,19 @@
         </visual>
 
         <collision>
-            <origin xyz = '0 0 0' rpy = '0 0 0'/>
+            <origin xyz = '0 ${-1 * o} 0' rpy = '0 0 0'/>
             <geometry>
-                <cylinder radius = '0.03115' length = '0.03035'/>
+                <cylinder radius = '0.0325' length = '0.03035'/>
             </geometry>
         </collision>
 
         <inertial>
-            <mass value = '0.051532'/>
-            <inertia ixx = '${a*1.4595E-05}' 
-                     ixy = '${a*-4.3975E-10}' 
-                     ixz = '${a*4.415E-10}'
-                     iyy = '${a*1.4594E-05}' 
-                     iyz = '${a*-1.7476E-09}' 
-                     izz = '${a*2.4264E-05}'/>
+            <mass value = '0.0575175'/>
+            <xacro:cylinder_inertia
+                mass = '0.0575175'
+                radius = '0.0325'
+                length = '0.03035'
+            />
         </inertial>
     </link>
 
@@ -120,20 +128,19 @@
         </visual>
 
         <collision>
-            <origin xyz = '0 0 0' rpy = '0 0 0'/>
+            <origin xyz = '0 ${o} 0' rpy = '0 0 0'/>
             <geometry>
-                <cylinder radius = '0.03115' length = '0.03035'/>
+                <cylinder radius = '0.0325' length = '0.03035'/>
             </geometry>
         </collision>
 
         <inertial>
-            <mass value = '0.051543'/>
-            <inertia ixx = '${a*1.4597E-05}' 
-                     ixy = '${a*-4.7945E-10}' 
-                     ixz = '${a*-2.4786E-10}'
-                     iyy = '${a*1.4598E-05}' 
-                     iyz = '${a*1.7972E-09}' 
-                     izz = '${a*2.4267E-05}'/>
+            <mass value = '0.0575175'/>
+            <xacro:cylinder_inertia
+                mass = '0.0575175'
+                radius = '0.0325'
+                length = '0.03035'
+            />
         </inertial>
     </link>
 
@@ -157,20 +164,19 @@
         </visual>
 
         <collision>
-            <origin xyz = '0 0 0' rpy = '0 0 0'/>
+            <origin xyz = '0 ${-1 * o} 0' rpy = '0 0 0'/>
             <geometry>
-                <cylinder radius = '0.03115' length = '0.03035'/>
+                <cylinder radius = '0.0325' length = '0.03035'/>
             </geometry>
         </collision>
 
         <inertial>
-            <mass value = '0.051540174053366'/>
-            <inertia ixx = '${a*1.45974152250002E-05}' 
-                     ixy = '${a*1.94850559178397E-10}' 
-                     ixz = '${a*-1.61846387282284E-09}'
-                     iyy = '${a*1.4596501955693E-05}' 
-                     iyz = '${a*-6.27904057423818E-10}' 
-                     izz = '${a*2.42663091380451E-05}'/>
+            <mass value = '0.0575175'/>
+            <xacro:cylinder_inertia
+                mass = '0.0575175'
+                radius = '0.0325'
+                length = '0.03035'
+            />
         </inertial>
     </link>
 
@@ -194,20 +200,19 @@
         </visual>
 
         <collision>
-            <origin xyz = '0 0 0' rpy = '0 0 0'/>
+            <origin xyz = '0 ${o} 0' rpy = '0 0 0'/>
             <geometry>
-                <cylinder radius = '0.03115' length = '0.03035'/>
+                <cylinder radius = '0.0325' length = '0.03035'/>
             </geometry>
         </collision>
 
         <inertial>
-            <mass value = '0.0515309299357028'/>
-            <inertia ixx = '${a*1.45942986129926E-05}' 
-                     ixy = '${a*-3.19787215398093E-10}' 
-                     ixz = '${a*1.74943062058915E-09}'
-                     iyy = '${a*1.45948727598913E-05}' 
-                     iyz = '${a*1.61769812110049E-10}'
-                     izz = '${a*2.4263683888153E-05}'/>
+            <mass value = '0.0575175'/>
+            <xacro:cylinder_inertia
+                mass = '0.0575175'
+                radius = '0.0325'
+                length = '0.03035'
+            />
         </inertial>
     </link>
 
