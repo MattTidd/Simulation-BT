@@ -52,28 +52,15 @@ def generate_launch_description():
                 PythonLaunchDescriptionSource([os.path.join(
                     get_package_share_directory('gazebo_ros'), 'launch', 'gazebo.launch.py')]),
                     launch_arguments = {
-                        # 'verbose': 'true',
+                        'verbose': 'true',
                         'extra_gazebo_args': '--ros-args --params-file ' + gazebo_params_path}
                         .items()
              )
     
     spawn_entity = Node(package = 'gazebo_ros', executable = 'spawn_entity.py',
                         arguments=['-topic', 'robot_description',
-                                   '-entity', 'MRP'],
+                                   '-entity', 'X3'],
                         output='screen')
-    
-    joint_controller = Node(
-        package = 'controller_manager',
-        executable = 'spawner',
-        arguments = ['joint_state_broadcaster']
-    )
-
-    mecanum_drive_controller = Node(
-        package = 'controller_manager',
-        executable = 'spawner',
-        name = 'mecanum_drive_controller',
-        arguments = ['mecanum_drive_controller'],
-    )
     
     joy_node = Node(
         package = 'joy',
@@ -87,15 +74,12 @@ def generate_launch_description():
         executable = 'teleop_node',
         name = 'teleop_node',
         parameters = [joy_params_path],
-        # remappings = [('/cmd_vel', '/mecanum_drive_controller/reference_unstamped')]
     )
 
     return LaunchDescription([
         robot_state_publisher,
         gazebo, 
         spawn_entity,
-        # joint_controller,
-        # mecanum_drive_controller,
         joy_node, 
         teleop_node
     ])
