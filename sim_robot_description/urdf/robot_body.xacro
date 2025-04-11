@@ -2,7 +2,7 @@
 <robot xmlns:xacro = 'http://www.ros.org/wiki/xacro'>
     <!-- PROPERTIES -->
     <xacro:property name = 'a' value = '1.0'/>      <!-- scalar used for inertia -->
-    <xacro:property name = 'd' value = '0.3'/>      <!-- scalar used for damping -->
+    <xacro:property name = 'd' value = '0.1'/>     <!-- scalar used for damping -->
     <xacro:property name = 'o' value = '0.000'/>    <!-- tuneable offset for wheel collision -->
 
     <material name = 'black'>
@@ -95,6 +95,7 @@
             <origin xyz = '0 ${-1 * o} 0' rpy = '0 0 0'/>
             <geometry>
                 <cylinder radius = '0.0325' length = '0.03035'/>
+                <!-- <sphere radius = '0.0325'/> -->
             </geometry>
         </collision>
 
@@ -110,7 +111,7 @@
 
     <!-- front right wheel to chassis joint -->
     <joint name = 'front_right_joint' type = 'continuous'>
-        <origin xyz = '0.08 -0.0845 -0.0389' rpy = '-1.5703 0 3.14159'/>
+        <origin xyz = '0.08 -0.08475 -0.0389' rpy = '-1.5703 0 3.14159'/>
         <parent link = 'chassis_link'/>
         <child link = 'front_right_wheel_link'/>
         <axis xyz = '0 0 -1' rpy = '0 0 0'/>
@@ -131,6 +132,7 @@
             <origin xyz = '0 ${o} 0' rpy = '0 0 0'/>
             <geometry>
                 <cylinder radius = '0.0325' length = '0.03035'/>
+                <!-- <sphere radius = '0.0325'/> -->
             </geometry>
         </collision>
 
@@ -146,7 +148,7 @@
 
     <!-- front left wheel to chassis joint -->
     <joint name = 'front_left_joint' type = 'continuous'>
-        <origin xyz = '0.08 0.084492 -0.0389' rpy = '1.5703 0 0'/>
+        <origin xyz = '0.08 0.08475 -0.0389' rpy = '1.5703 0 0'/>
         <parent link = 'chassis_link'/>
         <child link = 'front_left_wheel_link'/>
         <axis xyz = '0 0 -1' rpy = '0 0 0'/>
@@ -167,6 +169,7 @@
             <origin xyz = '0 ${-1 * o} 0' rpy = '0 0 0'/>
             <geometry>
                 <cylinder radius = '0.0325' length = '0.03035'/>
+                <!-- <sphere radius = '0.0325'/> -->
             </geometry>
         </collision>
 
@@ -182,7 +185,7 @@
 
     <!-- back right wheel to chassis joint -->
     <joint name = 'back_right_joint' type = 'continuous'>
-        <origin xyz = '-0.08 -0.0845 -0.03946' rpy = '-1.57 0 3.14159'/>
+        <origin xyz = '-0.08 -0.08475 -0.03946' rpy = '-1.57 0 3.14159'/>
         <parent link = 'chassis_link'/>
         <child link = 'back_right_wheel_link'/>
         <axis xyz = '0 0 -1' rpy = '0 0 0'/>
@@ -203,6 +206,7 @@
             <origin xyz = '0 ${o} 0' rpy = '0 0 0'/>
             <geometry>
                 <cylinder radius = '0.0325' length = '0.03035'/>
+                <!-- <sphere radius = '0.0325'/> -->
             </geometry>
         </collision>
 
@@ -218,7 +222,7 @@
 
     <!-- back left wheel to chassis joint -->
     <joint name = 'back_left_joint' type = 'continuous'>
-        <origin xyz = '-0.08 0.084492 -0.03954' rpy = '1.5703 0 0'/>
+        <origin xyz = '-0.08 0.08475 -0.03954' rpy = '1.5703 0 0'/>
         <parent link = 'chassis_link'/>
         <child link = 'back_left_wheel_link'/>
         <axis xyz = '0 0 -1' rpy = '0 0 0'/>
