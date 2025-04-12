@@ -4,6 +4,9 @@
     <!--            PROPERTIES          -->
     <xacro:property name = 'mu1' value = '1.5'/>
     <xacro:property name = 'mu2' value = '0.05'/>
+    <xacro:property name = 'minDepth' value = '0.0005'/>
+    <xacro:property name = 'kp' value = '1000000'/>
+    <xacro:property name = 'kd' value = '7500'/>
 
     <!--            LINKS          -->
     <gazebo reference = 'chassis_link'>
@@ -11,43 +14,43 @@
     </gazebo>
 
     <gazebo reference = 'front_right_wheel_link'>
-        <material>Gazebo/Blue</material>
+        <material>Gazebo/Black</material>
         <mu1 value = '${mu1}' />
         <mu2 value = '${mu2}' />
         <fdir1 gz:expressed_in='base_link'>1 1 0</fdir1>
-        <minDepth>0.0005</minDepth>
-        <kp>1000000</kp>
-        <kd>7500</kd>
+        <minDepth>${minDepth}</minDepth>
+        <kp>${kp}</kp>
+        <kd>${kd}</kd>
     </gazebo>
 
     <gazebo reference = 'front_left_wheel_link'>
-        <material>Gazebo/Blue</material>
+        <material>Gazebo/Black</material>
         <mu1 value = '${mu1}' />
         <mu2 value = '${mu2}' />
         <fdir1 gz:expressed_in='base_link'>1 -1 0</fdir1>
-        <minDepth>0.0005</minDepth>
-        <kp>1000000</kp>
-        <kd>7500</kd>
+        <minDepth>${minDepth}</minDepth>
+        <kp>${kp}</kp>
+        <kd>${kd}</kd>
     </gazebo>
 
     <gazebo reference = 'back_right_wheel_link'>
-        <material>Gazebo/Blue</material>
+        <material>Gazebo/Black</material>
         <mu1 value = '${mu1}' />
         <mu2 value = '${mu2}' />
         <fdir1 gz:expressed_in='base_link'>1 -1 0</fdir1>
-        <minDepth>0.0005</minDepth>
-        <kp>1000000</kp>
-        <kd>7500</kd>
+        <minDepth>${minDepth}</minDepth>
+        <kp>${kp}</kp>
+        <kd>${kd}</kd>
     </gazebo>
 
     <gazebo reference = 'back_left_wheel_link'>
-        <material>Gazebo/Blue</material>
+        <material>Gazebo/Black</material>
         <mu1 value = '${mu1}' />
         <mu2 value = '${mu2}' />
         <fdir1 gz:expressed_in='base_link'>1 1 0</fdir1>
-        <minDepth>0.0005</minDepth>
-        <kp>1000000</kp>
-        <kd>7500</kd>
+        <minDepth>${minDepth}</minDepth>
+        <kp>${kp}</kp>
+        <kd>${kd}</kd>
     </gazebo>
 
     <gazebo reference = 'lidar_link'>
