@@ -10,8 +10,8 @@ find_package(ament_cmake REQUIRED)
 
 # installation stuff:
 install(
-  DIRECTORY launch config urdf meshes   # these are the directories I need
-  DESTINATION share/${PROJECT_NAME}     # this is the destination
+  DIRECTORY launch config urdf meshes worlds    # these are the directories I need
+  DESTINATION share/${PROJECT_NAME}             # this is the destination
 )
 
 ament_package()
