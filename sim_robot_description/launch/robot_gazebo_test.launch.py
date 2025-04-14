@@ -31,10 +31,11 @@ from launch_ros.actions import Node
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 
 def generate_launch_description():
+
     # paths & params:
     pkg_path = os.path.join(get_package_share_directory('sim_robot_description'))
-    gazebo_params_path = os.path.join(pkg_path, 'config', 'gazebo_params.yaml')
     joy_params_path = os.path.join(pkg_path, 'config', 'joy_params.yaml')
+    gazebo_params_path = os.path.join(pkg_path, 'config', 'gazebo_params.yaml')
     xacro_path = os.path.join(pkg_path, 'urdf', 'robot.urdf.xacro')
 
     robot_description_config = Command(['xacro ', xacro_path])
