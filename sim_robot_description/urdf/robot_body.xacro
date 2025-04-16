@@ -5,7 +5,7 @@
     <xacro:property name = 'd' value = '1.0'/>              <!-- scalar used for damping -->
     <xacro:property name = 'o' value = '0.0'/>              <!-- tuneable offset for wheel collision -->
     <xacro:property name = 'c_mass' value = '2.415'/>       <!-- chassis mass, default is 2.415 -->
-    <xacro:property name = 'w_mass' value = '0.5'/>   <!-- wheel mass, default is 0.0575175 -->
+    <xacro:property name = 'w_mass' value = '0.5'/>         <!-- wheel mass, default is 0.0575175 -->
 
     <material name = 'black'>
         <color rgba = '0.1 0.1 0.1 1'/>
