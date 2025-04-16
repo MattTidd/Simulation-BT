@@ -25,13 +25,12 @@ from ament_index_python.packages import get_package_share_directory
 from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, ExecuteProcess, RegisterEventHandler, TimerAction
 from launch.event_handlers import OnProcessExit, OnProcessStart
 from launch.conditions import IfCondition
-from launch.substitutions import LaunchConfiguration, Command
+from launch.substitutions import LaunchConfiguration, Command, PathJoinSubstitution
 from launch_ros.parameter_descriptions import ParameterValue
 from launch_ros.actions import Node
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 
 def generate_launch_description():
-
     # paths & params:
     pkg_path = os.path.join(get_package_share_directory('sim_robot_description'))
     joy_params_path = os.path.join(pkg_path, 'config', 'joy_params.yaml')
@@ -40,6 +39,14 @@ def generate_launch_description():
 
     robot_description_config = Command(['xacro ', xacro_path])
     rsp_params = {'robot_description': ParameterValue(robot_description_config, value_type = str), 'use_sim_time': True}
+
+    # launch arguments:
+    world = PathJoinSubstitution([pkg_path, 'worlds', LaunchConfiguration('world_name')])
+    world_arg = DeclareLaunchArgument(
+        'world_name',
+        default_value = 'empty.world',
+        description = 'Name of the world to be launched, within the Worlds folder'
+    )
 
     # nodes:
     robot_state_publisher = Node(
@@ -54,14 +61,15 @@ def generate_launch_description():
                     get_package_share_directory('gazebo_ros'), 'launch', 'gazebo.launch.py')]),
                     launch_arguments = {
                         # 'verbose': 'true',
+                        'world': world,
                         'extra_gazebo_args': '--ros-args --params-file ' + gazebo_params_path}
                         .items()
              )
     
     spawn_entity = Node(package = 'gazebo_ros', executable = 'spawn_entity.py',
-                        arguments=['-topic', 'robot_description',
+                        arguments = ['-topic', 'robot_description',
                                    '-entity', 'X3'],
-                        output='screen')
+                        output = 'screen')
     
     joy_node = Node(
         package = 'joy',
@@ -78,6 +86,7 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
+        world_arg,
         robot_state_publisher,
         gazebo, 
         spawn_entity,
