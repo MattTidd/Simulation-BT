@@ -5,7 +5,7 @@
     <xacro:property name = 'mu1' value = '0.1'/>
     <xacro:property name = 'mu2' value = '0.1'/>
     <xacro:property name = 'minDepth' value = '0.0001'/>
-    <xacro:property name = 'kp' value = '1000000'/>
+    <xacro:property name = 'kp' value = '1e8'/>
     <xacro:property name = 'kd' value = '7500'/>
 
     <!--            LINKS          -->
@@ -15,6 +15,7 @@
 
     <gazebo reference = 'front_right_wheel_link'>
         <material>Gazebo/Black</material>
+        <pose>0 0 0 0 0 0</pose>
         <mu1 value = '${mu1}' />
         <mu2 value = '${mu2}' />
         <fdir1 gz:expressed_in='base_link'>1 1 0</fdir1>
@@ -25,6 +26,7 @@
 
     <gazebo reference = 'front_left_wheel_link'>
         <material>Gazebo/Black</material>
+        <pose>0 0 0 0 0 0</pose>
         <mu1 value = '${mu1}' />
         <mu2 value = '${mu2}' />
         <fdir1 gz:expressed_in='base_link'>-1 1 0</fdir1>
@@ -35,6 +37,7 @@
 
     <gazebo reference = 'back_right_wheel_link'>
         <material>Gazebo/Black</material>
+        <pose>0 0 0 0 0 0</pose>
         <mu1 value = '${mu1}' />
         <mu2 value = '${mu2}' />
         <fdir1 gz:expressed_in='base_link'>1 -1 0</fdir1>
@@ -45,6 +48,7 @@
 
     <gazebo reference = 'back_left_wheel_link'>
         <material>Gazebo/Black</material>
+        <pose>0 0 0 0 0 0</pose>
         <mu1 value = '${mu1}' />
         <mu2 value = '${mu2}' />
         <fdir1 gz:expressed_in='base_link'>-1 -1 0</fdir1>
@@ -57,7 +61,7 @@
         <material>Gazebo/Black</material>
         <sensor name = 'lidar' type = 'ray'>
             <pose> 0 0 0 0 0 0 </pose>
-            <visualize>true</visualize>
+            <visualize>false</visualize>
             <update_rate>10</update_rate>
             <ray>
                 <scan>
@@ -85,6 +89,27 @@
 
     <gazebo reference = 'camera_link'>
         <material>Gazebo/Black</material>
+        <sensor name = 'camera' type = 'depth'>
+            <pose> 0 0 0 0 0 0 </pose>
+            <visualize>true</visualize>
+            <update_rate>10</update_rate>
+            <camera>
+                <horizontal_fov>1.019272283</horizontal_fov>
+                <vertical_fov>0.7941248097</vertical_fov>
+                <image>
+                    <format>R16G16B16</format>
+                    <width>640</width>
+                    <height>480</height>
+                </image>
+                <clip>
+                    <near>0.6</near>
+                    <far>8.0</far>
+                </clip>
+            </camera>
+            <plugin name = 'camera_controller' filename = 'libgazebo_ros_camera.so'>
+                <frame_name>camera_link_optical</frame_name>
+            </plugin>
+        </sensor>
     </gazebo>
 
     <!--            GAZEBO CONTROL           -->
@@ -94,7 +119,7 @@
             <odometryTopic>odom</odometryTopic>
             <odometryFrame>odom</odometryFrame>
             <odometryRate>250.0</odometryRate>
-            <robotBaseFrame>base_link</robotBaseFrame>
+            <robotBaseFrame>base_footprint</robotBaseFrame>
 
             <wheel_radius>0.0325</wheel_radius>
             <base_length>0.16</base_length>

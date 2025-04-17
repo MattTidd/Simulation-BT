@@ -65,4 +65,15 @@
         <parent link = 'chassis_link'/>
         <child link = 'camera_link'/>
     </joint>
+
+    <!-- optical link for camera coordinate frame -->
+    <link name = 'camera_link_optical'>
+    </link>
+
+    <!-- optical camera link to actual camera link joint: -->
+    <joint name = 'camera_optical_joint' type = 'fixed'>
+        <origin xyz = '0 0 0' rpy = '-1.570796 0 -1.570796'/>
+        <parent link = 'camera_link'/>
+        <child link = 'camera_link_optical'/>
+    </joint>
 </robot>
