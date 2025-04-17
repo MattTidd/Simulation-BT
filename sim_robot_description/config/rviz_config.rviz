@@ -67,11 +67,45 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        base_link:
+        back_left_wheel_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        back_right_wheel_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        base_footprint:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        camera_link_optical:
           Alpha: 1
           Show Axes: false
           Show Trail: false
         chassis_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        front_left_wheel_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        front_right_wheel_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        lidar_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -89,9 +123,23 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: false
-        base_link:
+        back_left_wheel_link:
+          Value: true
+        back_right_wheel_link:
+          Value: true
+        base_footprint:
+          Value: true
+        camera_link:
+          Value: true
+        camera_link_optical:
           Value: true
         chassis_link:
+          Value: true
+        front_left_wheel_link:
+          Value: true
+        front_right_wheel_link:
+          Value: true
+        lidar_link:
           Value: true
       Marker Scale: 0.20000000298023224
       Name: TF
@@ -99,15 +147,27 @@ Visualization Manager:
       Show Axes: true
       Show Names: false
       Tree:
-        base_link:
+        base_footprint:
           chassis_link:
-            {}
+            back_left_wheel_link:
+              {}
+            back_right_wheel_link:
+              {}
+            camera_link:
+              camera_link_optical:
+                {}
+            front_left_wheel_link:
+              {}
+            front_right_wheel_link:
+              {}
+            lidar_link:
+              {}
       Update Interval: 0
       Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: base_link
+    Fixed Frame: base_footprint
     Frame Rate: 30
   Name: root
   Tools:
@@ -157,18 +217,18 @@ Visualization Manager:
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.003790518967434764
-        Y: -0.02365029789507389
-        Z: 0.049260884523391724
+        X: 0.01847762055695057
+        Y: -0.02643253467977047
+        Z: 0.0861058458685875
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.4947972297668457
+      Pitch: 0.30979734659194946
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.6454042792320251
+      Yaw: 0.8904044032096863
     Saved: ~
 Window Geometry:
   Displays:
