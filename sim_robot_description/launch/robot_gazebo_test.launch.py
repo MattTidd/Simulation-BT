@@ -57,7 +57,7 @@ def generate_launch_description():
                     (0, 0, 0), (3.0, -4.5, np.pi/2)]
     
     # pick a robot spawn:
-    x, y, Y = robot_spawns[np.random.randint(0, len(robot_spawns))]
+    x, y, yaw = robot_spawns[np.random.randint(0, len(robot_spawns))]
 
     # launch arguments:
     use_random_spawn = LaunchConfiguration('use_random_spawn')
@@ -105,7 +105,7 @@ def generate_launch_description():
                                    '-entity', 'X3',
                                    '-x', str(x),
                                    '-y', str(y),
-                                   '-Y', str(Y)],
+                                   '-Y', str(yaw)],
                         output = 'screen',
                         condition = IfCondition(use_random_spawn))
     
@@ -136,10 +136,13 @@ def generate_launch_description():
         world_arg,
         use_random_spawn_arg,
         arg_log,
+
         robot_state_publisher,
         gazebo, 
+
         random_spawn_entity,
         spawn_entity,
+        
         joy_node, 
         teleop_node
     ])
