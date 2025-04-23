@@ -22,13 +22,14 @@ teleoperation using ROS2_Control.
 import os
 from launch import LaunchDescription
 from ament_index_python.packages import get_package_share_directory
-from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, ExecuteProcess, RegisterEventHandler, TimerAction
+from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, LogInfo
 from launch.event_handlers import OnProcessExit, OnProcessStart
-from launch.conditions import IfCondition
+from launch.conditions import IfCondition, UnlessCondition
 from launch.substitutions import LaunchConfiguration, Command, PathJoinSubstitution
 from launch_ros.parameter_descriptions import ParameterValue
 from launch_ros.actions import Node
 from launch.launch_description_sources import PythonLaunchDescriptionSource
+import numpy as np
 
 def generate_launch_description():
     # paths & params:
@@ -39,13 +40,46 @@ def generate_launch_description():
 
     robot_description_config = Command(['xacro ', xacro_path])
     rsp_params = {'robot_description': ParameterValue(robot_description_config, value_type = str), 'use_sim_time': True}
+    
+    # robot spawns:
+    robot_spawns = [(-4.25, 1.75, -np.pi/2), (-4.5, -1.0, np.pi/4), (3.125, 0.75, -np.pi/4),
+                    (-1.75, -1.75, np.pi/4), (0.25, -1.75, 3*np.pi/4), (-3.0, 1.75, 0),
+                    (-0.5, 1.75, np.pi), (-4.5, 4.5, -np.pi/4), (-4.5, 2.75, np.pi/4),
+                    (-3.625, 2.75, 3*np.pi/4), (-2.5, 4.5, -np.pi/2), (-1.625, 4.5, -np.pi/4),
+                    (-0.5, 4.5, -3*np.pi/4), (-0.625, 3.125, 3*np.pi/4), (0.375, 1.5, 0),
+                    (0.375, 3.0, -np.pi/4), (3.0, 1.0, 3*np.pi/4), (0.5, 4.25, 0),
+                    (1.75, 4.5, -np.pi/2), (2.75, 4.25, 0), (4.375, 4.5, -3*np.pi/4),
+                    (4.125, 1.75, np.pi/2), (4.125, 0.625, -np.pi/2), (4.25, -1.25, 3*np.pi/4),
+                    (3.0, -1.25, np.pi/4), (4.25, -2.5, np.pi), (4.25, -4.0, np.pi),
+                    (3.0, -2.25, -np.pi/2), (0.125, -4.5, np.pi/4), (2.0, -4.5, 3*np.pi/4),
+                    (0.375, -2.625, -3*np.pi/4), (-1.625, -2.625, -np.pi/4), (-3.0, -4.5, 0),
+                    (-4.375, -4.5, np.pi/2), (-4.5, -1.875, -np.pi/4), (-2.625, -1.875, -3*np.pi/4),
+                    (0, 0, 0), (3.0, -4.5, np.pi/2)]
+    
+    # pick a robot spawn:
+    x, y, Y = robot_spawns[np.random.randint(0, len(robot_spawns))]
 
     # launch arguments:
+    use_random_spawn = LaunchConfiguration('use_random_spawn')
     world = PathJoinSubstitution([pkg_path, 'worlds', LaunchConfiguration('world_name')])
+
     world_arg = DeclareLaunchArgument(
         'world_name',
         default_value = 'empty.world',
         description = 'Name of the world to be launched, within the Worlds folder'
+    )
+
+    use_random_spawn_arg = DeclareLaunchArgument(
+        'use_random_spawn',
+        default_value = 'false',
+        description = 'Spawn the robot in a random position if true'
+    )
+
+    # logging arguments:
+    arg_log = LogInfo(
+        condition = None,
+        msg = ['\nworld_name: ', LaunchConfiguration('world_name'),
+               ' | use_random_spawn: ', LaunchConfiguration('use_random_spawn')]
     )
 
     # nodes:
@@ -66,10 +100,23 @@ def generate_launch_description():
                         .items()
              )
     
+    random_spawn_entity = Node(package = 'gazebo_ros', executable = 'spawn_entity.py',
+                        arguments = ['-topic', 'robot_description',
+                                   '-entity', 'X3',
+                                   '-x', str(x),
+                                   '-y', str(y),
+                                   '-Y', str(Y)],
+                        output = 'screen',
+                        condition = IfCondition(use_random_spawn))
+    
     spawn_entity = Node(package = 'gazebo_ros', executable = 'spawn_entity.py',
                         arguments = ['-topic', 'robot_description',
-                                   '-entity', 'X3'],
-                        output = 'screen')
+                                   '-entity', 'X3',
+                                   '-x', '0.0',
+                                   '-y', '0.0',
+                                   '-Y', '0.0'],
+                        output = 'screen',
+                        condition = UnlessCondition(use_random_spawn))
     
     joy_node = Node(
         package = 'joy',
@@ -87,8 +134,11 @@ def generate_launch_description():
 
     return LaunchDescription([
         world_arg,
+        use_random_spawn_arg,
+        arg_log,
         robot_state_publisher,
         gazebo, 
+        random_spawn_entity,
         spawn_entity,
         joy_node, 
         teleop_node
