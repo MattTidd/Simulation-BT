@@ -33,8 +33,8 @@ import numpy as np
 def generate_launch_description():
     # paths & params:
     pkg_path = os.path.join(get_package_share_directory('sim_robot_description'))
-    joy_params_path = os.path.join(pkg_path, 'config', 'joy_params.yaml')
-    gazebo_params_path = os.path.join(pkg_path, 'config', 'gazebo_params.yaml')
+    joy_params_path = os.path.join(pkg_path, 'config', 'params_joy.yaml')
+    gazebo_params_path = os.path.join(pkg_path, 'config', 'params_gazebo.yaml')
     xacro_path = os.path.join(pkg_path, 'urdf', 'robot.urdf.xacro')
 
     robot_description_config = Command(['xacro ', xacro_path])
