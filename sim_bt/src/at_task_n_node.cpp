@@ -12,7 +12,7 @@ namespace sim_bt
     auto node = config.blackboard->get<rclcpp::Node*>("node");
 
     // declare & get parameters:
-    node->declare_parameter("task_treshold", 0.5);
+    node->declare_parameter("task_threshold", 0.5);
     node->get_parameter("task_threshold", threshold_);
 
     // set buffer & listener:
@@ -25,11 +25,11 @@ BT::NodeStatus AtTaskN::tick()
     // get the message and handle missing case:
     std::vector<geometry_msgs::msg::PoseStamped> locations;
     if (!getInput("locations", locations)){
-        throw BT::RuntimeError("AtTaskN: missing input [locations]!")
+        throw BT::RuntimeError("AtTaskN: missing input [locations]!");
     }
 
     // check the first waypoint:
-    const auto& target = locations.front()
+    const auto& target = locations.front();
 
     // 
     geometry_msgs::msg::TransformStamped tf;
