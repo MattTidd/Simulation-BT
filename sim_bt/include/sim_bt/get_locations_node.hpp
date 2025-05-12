@@ -15,7 +15,7 @@ public:
     GetLocations(const std::string& name, const BT::NodeConfiguration& config);
 
     // list the ports:
-    static BT:PortsList providedPorts()
+    static BT::PortsList providedPorts()
     {
         return { BT::OutputPort<std::vector<geometry_msgs::msg::PoseStamped>>("locations") };
     }
