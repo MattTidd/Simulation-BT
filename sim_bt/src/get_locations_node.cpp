@@ -3,6 +3,8 @@
 #include <behaviortree_cpp/bt_factory.h>
 #include <iostream>
 #include <rclcpp/rclcpp.hpp>
+#include <rcl_interfaces/msg/parameter_descriptor.hpp> 
+#include <tf2_geometry_msgs/tf2_geometry_msgs.hpp> 
 
 namespace sim_bt
 {
