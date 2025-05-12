@@ -24,7 +24,7 @@ public:
     BT::NodeStatus tick() override;
 
 private:
-    double treshold_;
+    double threshold_;
     std::shared_ptr<tf2_ros::Buffer> tf_buffer_;
     std::shared_ptr<tf2_ros::TransformListener> tf_listener_;
 };
