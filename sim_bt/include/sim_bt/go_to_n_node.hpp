@@ -3,8 +3,10 @@
 
 #include <behaviortree_cpp/action_node.h>
 #include <geometry_msgs/msg/pose_stamped.hpp>
+#include <action_msgs/msg/goal_status.hpp>
 #include <nav2_msgs/action/navigate_to_pose.hpp>
 #include <rclcpp/rclcpp.hpp>
+#include <rclcpp_action/rclcpp_action.hpp>
 #include <memory>
 
 namespace sim_bt
@@ -21,12 +23,12 @@ public:
   }
 
   BT::NodeStatus tick() override;
-  void halt() override;
 
 private:
   rclcpp::Node* node_;
-  rclcpp::Client<nav2_msgs::action::NavigateToPose>::SharedPtr action_client_;
+  rclcpp_action::Client<nav2_msgs::action::NavigateToPose>::SharedPtr action_client_;
   std::shared_future<typename nav2_msgs::action::NavigateToPose::Result::SharedPtr> result_future_;
+  rclcpp_action::ClientGoalHandle<nav2_msgs::action::NavigateToPose>::SharedPtr goal_handle_;
   bool goal_sent_;
 };
 
