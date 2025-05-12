@@ -8,25 +8,57 @@ int main(int argc, char** argv) {
   rclcpp::init(argc, argv);
   auto node = std::make_shared<rclcpp::Node>("sim_bt");
 
-  BT::BehaviorTreeFactory factory;
-  factory.registerNodeType<GetLocations>("GetLocations");
-  factory.registerNodeType<AtTaskN>("AtTaskN");
-  factory.registerNodeType<GoToN>("GoToN");
-  // when I make the inspection node, also add it here!
+  try {
+    // initialize behavior tree factory:
+    BT::BehaviorTreeFactory factory;
+    
+    // register custom nodes
+    factory.registerNodeType<sim_bt::GetLocations>("GetLocations");
+    factory.registerNodeType<sim_bt::AtTaskN>("AtTaskN"); 
+    factory.registerNodeType<sim_bt::GoToN>("GoToN");
+    // add the inspection node when it is made!
 
-  auto tree = factory.createTreeFromFile(
-    node->declare_parameter("tree_file").get<std::string>(),
-    node->get_node_logger().get_name()
-  );
+    // load behavior tree from XML file:
+    const std::string tree_filename = node->declare_parameter<std::string>(
+      "tree_file", 
+      "trees/main_tree.xml"
+    );
 
-  // ROS2 timer to tick the tree at 10 Hz
-  auto timer = node->create_wall_timer(
-    std::chrono::milliseconds(100),
-    [&]() {
-      tree.rootNode()->executeTick();
+    // create the tree:
+    auto blackboard = BT::Blackboard::create();    // create a blackboard
+    blackboard->set("logger", node->get_logger()); // send the logger to the blackboard
+    auto tree = factory.createTreeFromFile(tree_filename, blackboard);  // create tree
+
+    // configure tree tick timer
+    const auto tick_period = std::chrono::milliseconds(
+      node->declare_parameter<int>("tick_rate_ms", 100)
+    );
+
+    auto timer = node->create_wall_timer(tick_period, [&]() {
+      try {
+        const BT::NodeStatus status = tree.tickOnce();
+        if(status == BT::NodeStatus::RUNNING) {
+          return;
+        }
+        
+        // shutdown when tree completes:
+        RCLCPP_INFO(node->get_logger(), "Behavior Tree completed with status: %d", static_cast<int>(status));
+        rclcpp::shutdown();
+        
+      } catch (const std::exception& e) {
+        RCLCPP_ERROR(node->get_logger(), "Error executing tree: %s", e.what());
+        rclcpp::shutdown();
+      }
     });
 
-  rclcpp::spin(node);
+    RCLCPP_INFO(node->get_logger(), "Behavior Tree controller started!");
+    rclcpp::spin(node);
+
+  } catch (const std::exception& e) {
+    RCLCPP_FATAL(node->get_logger(), "Failed to initialize: %s", e.what());
+    return EXIT_FAILURE;
+  }
+
   rclcpp::shutdown();
-  return 0;
+  return EXIT_SUCCESS;
 }
