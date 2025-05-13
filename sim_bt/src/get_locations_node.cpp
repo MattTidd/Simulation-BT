@@ -36,6 +36,7 @@ namespace sim_bt
 BT::NodeStatus GetLocations::tick()
 {
     setOutput("locations", locations_);
+    std::cout << "Got Locations!" << std::endl;
     return BT::NodeStatus::SUCCESS;
 }
 
