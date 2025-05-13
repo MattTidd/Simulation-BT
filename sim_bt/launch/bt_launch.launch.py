@@ -20,8 +20,26 @@ from launch import LaunchDescription
 from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
 import numpy as np
+import os
 
 def generate_launch_description():
+    # get paths:
+    pkg_path = get_package_share_directory("sim_bt")
+
+    # params:
+    nav2_params_path = os.path.join(pkg_path, 'params', 'nav2_params.yaml')
+    map_file = os.path.join(pkg_path, 'maps', 'small_room_map.yaml')
+
+    # nodes:
+    nav2_bringup = Node(
+        package = 'nav2_bringup',
+        executable = 'bringup_launch.py',
+        name = 'nav2_bringup',
+        output = 'screen',
+        parameters = [nav2_params_path],
+        arguments = ['--map', map_file]
+    )
+
     bt_node = Node(
         package = 'sim_bt',
         executable = 'bt_node',
@@ -29,10 +47,13 @@ def generate_launch_description():
         output = 'screen',
         parameters = [
             {'tree_file' : get_package_share_directory('sim_bt') + '/trees/my_tree.xml'},
-            {'task_locations': [2.0, 3.0, 1.0]},
-            {'task_count' : int(5)}]
+            {'task_locations': [1.14694, 1.751130, -0.706895,
+                                -1.833130, -0.640061, -0.815012,
+                                -0.117466, 2.513610, 0.791175]},
+            {'task_count' : int(3)}]
     )
 
     return LaunchDescription([
+        nav2_bringup,
         bt_node
     ])
