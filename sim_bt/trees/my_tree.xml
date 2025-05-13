@@ -1,6 +1,6 @@
 <root BTCPP_format='4' main_tree_to_execute='MainTree'>
   <BehaviorTree ID='MainTree'>
-    <Repeat num_cycles='{task_count}' name='root_decorator'>
+    <Repeat num_cycles="{task_count}" name='root_decorator'>
       <Sequence name='travel_to_task_sequence'>
         <GetLocations   name='get_locations'  locations='{current_location}'/>
         <Fallback       name='inspection_fallback'>
