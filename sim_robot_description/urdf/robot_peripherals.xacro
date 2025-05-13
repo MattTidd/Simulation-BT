@@ -34,7 +34,7 @@
     <!-- lidar to chassis joint -->
     <joint name = 'lidar_joint' type = 'fixed'>
         <origin xyz = '0.0405 5.25826986680105E-05 0.08285' rpy = '0 0 0'/>
-        <parent link = 'chassis_link'/>
+        <parent link = 'base_link'/>
         <child link = 'lidar_link'/>
     </joint>
 
@@ -62,7 +62,7 @@
     <!-- camera to chassis joint -->
     <joint name = 'camera_joint' type = 'fixed'>
         <origin xyz = '0.057105 1.7948E-05 0.03755' rpy = '0 0 0'/>
-        <parent link = 'chassis_link'/>
+        <parent link = 'base_link'/>
         <child link = 'camera_link'/>
     </joint>
 

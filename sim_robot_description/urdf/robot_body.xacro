@@ -48,7 +48,7 @@
     </link>
 
     <!-- chassis link -->
-    <link name = 'chassis_link'>
+    <link name = 'base_link'>
         <visual>
             <origin xyz = '0 0 0' rpy = '0 0 0'/>
             <geometry>
@@ -78,7 +78,7 @@
     <!-- chassis to base joint -->
     <joint name = 'base_joint' type = 'fixed'>
         <parent link = 'base_footprint'/>
-        <child link = 'chassis_link'/>
+        <child link = 'base_link'/>
         <origin xyz = '0 0 0.07115' rpy = '0 0 0'/> <!-- origin offset of 0.07115 -->
     </joint>
 
@@ -113,7 +113,7 @@
     <!-- front right wheel to chassis joint -->
     <joint name = 'front_right_joint' type = 'continuous'>
         <origin xyz = '0.08 -0.08475 -0.0389' rpy = '0 0 0'/>
-        <parent link = 'chassis_link'/>
+        <parent link = 'base_link'/>
         <child link = 'front_right_wheel_link'/>
         <axis xyz = '0 1 0' rpy = '0 0 0'/>
         <dynamics damping = '${d}'/>
@@ -149,7 +149,7 @@
     <!-- front left wheel to chassis joint -->
     <joint name = 'front_left_joint' type = 'continuous'>
         <origin xyz = '0.08 0.08475 -0.0389' rpy = '0 0 0'/>
-        <parent link = 'chassis_link'/>
+        <parent link = 'base_link'/>
         <child link = 'front_left_wheel_link'/>
         <axis xyz = '0 1 0' rpy = '0 0 0'/>
         <dynamics damping = '${d}'/>
@@ -185,7 +185,7 @@
     <!-- back right wheel to chassis joint -->
     <joint name = 'back_right_joint' type = 'continuous'>
         <origin xyz = '-0.08 -0.08475 -0.0389' rpy = '0 0 0'/>   <!-- z was -0.03946 -->
-        <parent link = 'chassis_link'/>
+        <parent link = 'base_link'/>
         <child link = 'back_right_wheel_link'/>
         <axis xyz = '0 1 0' rpy = '0 0 0'/>
         <dynamics damping = '${d}'/>
@@ -221,7 +221,7 @@
     <!-- back left wheel to chassis joint -->
     <joint name = 'back_left_joint' type = 'continuous'>
         <origin xyz = '-0.08 0.08475 -0.0389' rpy = '0 0 0'/> <!-- z was -0.03954 -->
-        <parent link = 'chassis_link'/>
+        <parent link = 'base_link'/>
         <child link = 'back_left_wheel_link'/>
         <axis xyz = '0 1 0' rpy = '0 0 0'/>
         <dynamics damping = '${d}'/>

@@ -9,7 +9,7 @@
     <xacro:property name = 'kd' value = '7500'/>
 
     <!--            LINKS          -->
-    <gazebo reference = 'chassis_link'>
+    <gazebo reference = 'base_link'>
         <material>Gazebo/Green</material>
     </gazebo>
 
@@ -18,7 +18,7 @@
         <pose>0 0 0 0 0 0</pose>
         <mu1 value = '${mu1}' />
         <mu2 value = '${mu2}' />
-        <fdir1 gz:expressed_in='base_link'>1 1 0</fdir1>
+        <fdir1 gz:expressed_in='base_footprint'>1 1 0</fdir1>
         <minDepth>${minDepth}</minDepth>
         <kp>${kp}</kp>
         <kd>${kd}</kd>
@@ -29,7 +29,7 @@
         <pose>0 0 0 0 0 0</pose>
         <mu1 value = '${mu1}' />
         <mu2 value = '${mu2}' />
-        <fdir1 gz:expressed_in='base_link'>-1 1 0</fdir1>
+        <fdir1 gz:expressed_in='base_footprint'>-1 1 0</fdir1>
         <minDepth>${minDepth}</minDepth>
         <kp>${kp}</kp>
         <kd>${kd}</kd>
@@ -40,7 +40,7 @@
         <pose>0 0 0 0 0 0</pose>
         <mu1 value = '${mu1}' />
         <mu2 value = '${mu2}' />
-        <fdir1 gz:expressed_in='base_link'>1 -1 0</fdir1>
+        <fdir1 gz:expressed_in='base_footprint'>1 -1 0</fdir1>
         <minDepth>${minDepth}</minDepth>
         <kp>${kp}</kp>
         <kd>${kd}</kd>
@@ -51,7 +51,7 @@
         <pose>0 0 0 0 0 0</pose>
         <mu1 value = '${mu1}' />
         <mu2 value = '${mu2}' />
-        <fdir1 gz:expressed_in='base_link'>-1 -1 0</fdir1>
+        <fdir1 gz:expressed_in='base_footprint'>-1 -1 0</fdir1>
         <minDepth>${minDepth}</minDepth>
         <kp>${kp}</kp>
         <kd>${kd}</kd>
@@ -119,7 +119,7 @@
             <odometryTopic>odom</odometryTopic>
             <odometryFrame>odom</odometryFrame>
             <odometryRate>250.0</odometryRate>
-            <robotBaseFrame>base_footprint</robotBaseFrame>
+            <robotBaseFrame>base_link</robotBaseFrame>
 
             <wheel_radius>0.0325</wheel_radius>
             <base_length>0.16</base_length>
