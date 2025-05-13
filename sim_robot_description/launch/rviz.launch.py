@@ -34,9 +34,9 @@ def generate_launch_description():
     xacro_path = os.path.join(pkg_path, 'urdf', 'robot.urdf.xacro')
 
     # launch arguments:
-    use_gazebo = LaunchConfiguration('use_gazebo')
-    use_gazebo_arg = DeclareLaunchArgument(
-        'use_gazebo',
+    solo_launch = LaunchConfiguration('solo_launch')
+    solo_launch_arg = DeclareLaunchArgument(
+        'solo_launch',
         default_value = 'false',
         description = 'Launch RSP & JSP if true, if not, use the nodes launched in the Gazebo launch file'
     )
@@ -50,14 +50,14 @@ def generate_launch_description():
         executable = 'robot_state_publisher',
         output = 'screen',
         parameters = [rsp_params],
-        condition = IfCondition(use_gazebo)
+        condition = IfCondition(solo_launch)
     )
 
     joint_state_publisher = Node(
         package = 'joint_state_publisher_gui',
         executable = 'joint_state_publisher_gui',
         parameters = [{'use_sim_time': False}], 
-        condition = IfCondition(use_gazebo)
+        condition = IfCondition(solo_launch)
     )
 
     rviz = Node(
@@ -71,7 +71,7 @@ def generate_launch_description():
 
     # launch:
     return LaunchDescription([
-        use_gazebo_arg,
+        solo_launch_arg,
         robot_state_publisher,
         joint_state_publisher,
         rviz
