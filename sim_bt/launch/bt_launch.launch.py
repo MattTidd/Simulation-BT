@@ -18,6 +18,8 @@ This launch file launches the BT executable for a simple inspection task.
 
 from launch import LaunchDescription
 from launch_ros.actions import Node
+from ament_index_python.packages import get_package_share_directory
+import numpy as np
 
 def generate_launch_description():
     bt_node = Node(
@@ -26,7 +28,9 @@ def generate_launch_description():
         name = 'simple_inspection_bt',
         output = 'screen',
         parameters = [
-            {'tree_file' : 'trees/my_tree.xml'}]
+            {'tree_file' : get_package_share_directory('sim_bt') + '/trees/my_tree.xml'},
+            {'task_locations': [2.0, 3.0, 1.0]},
+            {'task_count' : int(5)}]
     )
 
     return LaunchDescription([
