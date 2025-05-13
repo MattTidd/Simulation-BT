@@ -119,7 +119,8 @@
             <odometryTopic>odom</odometryTopic>
             <odometryFrame>odom</odometryFrame>
             <odometryRate>250.0</odometryRate>
-            <robotBaseFrame>base_link</robotBaseFrame>
+            <robotBaseFrame>base_footprint</robotBaseFrame>
+            <publish_wheel_tf>true</publish_wheel_tf>
 
             <wheel_radius>0.0325</wheel_radius>
             <base_length>0.16</base_length>

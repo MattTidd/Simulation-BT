@@ -116,7 +116,7 @@ def generate_launch_description():
                                    '-Y', '0.0'],
                         output = 'screen',
                         condition = UnlessCondition(use_random_spawn))
-    
+
     joy_node = Node(
         package = 'joy',
         executable = 'joy_node',
