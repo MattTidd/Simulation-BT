@@ -54,16 +54,8 @@ install(TARGETS bt_node
   DESTINATION lib/${PROJECT_NAME}
 )
 
-install(DIRECTORY include/
-  DESTINATION include/
-)
-
-install(DIRECTORY trees/
-  DESTINATION share/${PROJECT_NAME}/trees
-)
-
-install(DIRECTORY launch/
-  DESTINATION share/${PROJECT_NAME}/launch
+install(DIRECTORY include trees launch params maps src
+  DESTINATION share/${PROJECT_NAME}
 )
 
 ament_package()
