@@ -14,8 +14,8 @@ amcl:
     global_frame_id: "map"
     lambda_short: 0.1
     laser_likelihood_max_dist: 2.0
-    laser_max_range: 100.0
-    laser_min_range: -1.0
+    laser_max_range: 30.0
+    laser_min_range: 0.05
     laser_model_type: "likelihood_field"
     max_beams: 60
     max_particles: 2000
@@ -39,6 +39,15 @@ amcl:
     z_rand: 0.5
     z_short: 0.05
     scan_topic: scan
+    # I added these:
+    map_topic: map
+    set_initial_pose: true
+    initial_pose:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      yaw: 0.0
+
 
 bt_navigator:
   ros__parameters:
@@ -312,9 +321,9 @@ behavior_server:
     assisted_teleop:
       plugin: "nav2_behaviors/AssistedTeleop"
     global_frame: odom
-    robot_base_frame: base_link
+    robot_base_frame: base_footprint
     transform_tolerance: 0.1
-    use_sim_time: true
+    use_sim_time: True
     simulate_ahead_time: 2.0
     max_rotational_vel: 1.0
     min_rotational_vel: 0.4
