@@ -17,6 +17,8 @@ int main(int argc, char** argv) {
     factory.registerNodeType<sim_bt::GetLocations>("GetLocations");
     factory.registerNodeType<sim_bt::AtTaskN>("AtTaskN"); 
     factory.registerNodeType<sim_bt::GoToN>("GoToN");
+    factory.registerNodeType<sim_bt::CheckLocations>("CheckLocations");
+    factory.registerNodeType<sim_bt::PopLocation>("PopLocation");
     // add the inspection node when it is made!
 
     // get package path:
