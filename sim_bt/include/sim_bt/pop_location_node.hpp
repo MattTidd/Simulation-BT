@@ -7,11 +7,13 @@
 
 namespace sim_bt {
 
-class PopLocation : public BT::SyncActionNode {
+class PopLocation : public BT::SyncActionNode 
+{
 public:
   PopLocation(const std::string& name, const BT::NodeConfiguration& config);
 
-  static BT::PortsList providedPorts() {
+  static BT::PortsList providedPorts() 
+  {
     return { BT::InputPort<std::vector<geometry_msgs::msg::PoseStamped>>("locations_in"),
              BT::OutputPort<std::vector<geometry_msgs::msg::PoseStamped>>("locations_out") };
   }
