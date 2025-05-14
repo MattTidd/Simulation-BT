@@ -19,25 +19,41 @@ This launch file launches the BT executable for a simple inspection task.
 from launch import LaunchDescription
 from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 import numpy as np
 import os
 
 def generate_launch_description():
-    # get paths:
-    pkg_path = get_package_share_directory("sim_bt")
+    # launch parameters & arguments:
+    map_name = LaunchConfiguration('map_name')
+    map_name_arg = DeclareLaunchArgument(
+        'map_name',
+        default_value = 'small_room_map.yaml',
+        description = 'Map to be used in navigation'
+    )
 
-    # params:
+    use_sim_time = LaunchConfiguration('use_sim_time')
+    use_sim_time_arg = DeclareLaunchArgument(
+        'use_sim_time',
+        default_value = 'false',
+        description = 'Whether to use sim time or not, defaults to false'
+    )
+
+    print(f'setting paths!')
+    pkg_path = get_package_share_directory("sim_bt")
     nav2_params_path = os.path.join(pkg_path, 'params', 'nav2_params.yaml')
-    map_file = os.path.join(pkg_path, 'maps', 'small_room_map.yaml')
+    map_file = PathJoinSubstitution([pkg_path, 'maps', map_name])
+    print(f'map path is: {map_file}')
 
     # nodes:
-    nav2_bringup = Node(
-        package = 'nav2_bringup',
-        executable = 'bringup_launch.py',
-        name = 'nav2_bringup',
-        output = 'screen',
-        parameters = [nav2_params_path],
-        arguments = ['--map', map_file]
+    print(f'instantiating nodes!')
+    nav2_bringup = IncludeLaunchDescription(PythonLaunchDescriptionSource(
+        [os.path.join(get_package_share_directory('nav2_bringup'), 'launch', 'bringup_launch.py')]),
+        launch_arguments = {'map' : map_file,
+                            'use_sim_time' : use_sim_time,
+                            'params_file' : nav2_params_path}.items()
     )
 
     bt_node = Node(
@@ -53,7 +69,11 @@ def generate_launch_description():
             {'task_count' : int(3)}]
     )
 
+    print(f'launching!')
     return LaunchDescription([
+        map_name_arg,
+        use_sim_time_arg,
+        
         nav2_bringup,
         bt_node
     ])
