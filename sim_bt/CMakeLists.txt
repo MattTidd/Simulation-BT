@@ -29,7 +29,9 @@ add_executable(bt_node
   src/main.cpp 
   src/get_locations_node.cpp 
   src/at_task_n_node.cpp 
-  src/go_to_n_node.cpp 
+  src/go_to_n_node.cpp
+  src/pop_location_node.cpp 
+  src/check_locations_node.cpp 
 )
 
 target_include_directories(bt_node PUBLIC
