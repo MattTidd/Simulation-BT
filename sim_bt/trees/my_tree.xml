@@ -1,13 +1,17 @@
 <root BTCPP_format='4' main_tree_to_execute='MainTree'>
   <BehaviorTree ID='MainTree'>
-    <Repeat num_cycles="{task_count}" name='root_decorator'>
-      <Sequence name='travel_to_task_sequence'>
-        <GetLocations   name='get_locations'  locations='{current_location}'/>
-        <Fallback       name='inspection_fallback'>
-          <AtTaskN      name='at_task_N'  locations='{current_location}'/>
-          <GoToN        name='go_to_N'    locations='{current_location}'/>
-        </Fallback>
-      </Sequence>
-    </Repeat>
+    <Sequence name='main_sequence'>
+      <GetLocations name='get_locations' locations='{locations}'/>
+      <RepeatUntilFailure name='process_all_tasks'>
+        <Sequence name='task_handling'>
+          <CheckLocations name='check_locations' locations='{locations}'/>
+          <Fallback name='inspection_fallback'>
+            <AtTaskN name='at_task_N' locations='{locations}'/>
+            <GoToN name='go_to_N' locations='{locations}'/>
+          </Fallback>
+          <PopLocation name='pop_location' locations_in='{locations}' locations_out='{locations}'/>
+        </Sequence>
+      </RepeatUntilFailure>
+    </Sequence>
   </BehaviorTree>
 </root>
