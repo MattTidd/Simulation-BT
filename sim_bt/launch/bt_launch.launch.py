@@ -43,14 +43,16 @@ def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time')
     use_sim_time_arg = DeclareLaunchArgument(
         'use_sim_time',
-        default_value = 'false',
-        description = 'Whether to use sim time or not, defaults to false'
+        default_value = 'true',
+        description = 'Whether to use sim time or not, defaults to true'
     )
 
     pkg_path = get_package_share_directory("sim_bt")
     nav2_params_path = os.path.join(pkg_path, 'params', 'nav2_params.yaml')
     rviz_config_path = os.path.join(get_package_share_directory('sim_robot_description'), 'config', 'rviz_config.rviz')
-    map_file = PathJoinSubstitution([pkg_path, 'maps', map_name])
+    # map_file = PathJoinSubstitution([pkg_path, 'maps', map_name.__str__()])
+    map_file = os.path.join(pkg_path, 'maps', 'small_room_map.yaml')
+    print(f'\nmap file path is: {map_file}\n')
 
     # nodes:
     print(f'instantiating nodes!')
@@ -70,13 +72,13 @@ def generate_launch_description():
             {'tree_file' : get_package_share_directory('sim_bt') + '/trees/my_tree.xml'},
             {'task_locations': [1.14694, 1.751130, -0.706895,
                                 -1.833130, -0.640061, -0.815012,
-                                -0.117466, 2.513610, 0.791175]},
-            {'task_count' : int(3)}]
+                                -0.117466, 2.513610, 0.791175]}]
     )
 
     gazebo_and_rsp_nodes = IncludeLaunchDescription(PythonLaunchDescriptionSource(
         [os.path.join(get_package_share_directory('sim_robot_description'), 'launch', 'gazebo.launch.py')]),
-        launch_arguments = {'world_name' : 'small_room.world'}
+        launch_arguments = {'world_name' : 'small_room.world',
+                            'use_sim_time' : use_sim_time}.items()
         )
     
     rviz_node = Node(
@@ -85,7 +87,7 @@ def generate_launch_description():
         name = 'rviz2',
         output = 'screen',
         arguments = ['-d', rviz_config_path],
-        parameters = [{'use_sim_time': False}]
+        parameters = [{'use_sim_time': use_sim_time}]
     )
 
     print(f'launching!')
@@ -94,6 +96,7 @@ def generate_launch_description():
         use_sim_time_arg,
         
         gazebo_and_rsp_nodes,
+        rviz_node, 
         nav2_bringup,
-        bt_node
+        # bt_node
     ])
