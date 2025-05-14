@@ -39,35 +39,10 @@ def generate_launch_description():
 
     robot_description_config = Command(['xacro ', xacro_path])
     rsp_params = {'robot_description': ParameterValue(robot_description_config, value_type = str), 'use_sim_time': True}
-    
-    # robot spawns:
-    robot_spawns = [(-4.25, 1.75, -np.pi/2), (-4.5, -1.0, np.pi/4), (3.125, 0.75, -np.pi/4),
-                    (-1.75, -1.75, np.pi/4), (0.25, -1.75, 3*np.pi/4), (-3.0, 1.75, 0),
-                    (-0.5, 1.75, np.pi), (-4.5, 4.5, -np.pi/4), (-4.5, 2.75, np.pi/4),
-                    (-3.625, 2.75, 3*np.pi/4), (-2.5, 4.5, -np.pi/2), (-1.625, 4.5, -np.pi/4),
-                    (-0.5, 4.5, -3*np.pi/4), (-0.625, 3.125, 3*np.pi/4), (0.375, 1.5, 0),
-                    (0.375, 3.0, -np.pi/4), (3.0, 1.0, 3*np.pi/4), (0.5, 4.25, 0),
-                    (1.75, 4.5, -np.pi/2), (2.75, 4.25, 0), (4.375, 4.5, -3*np.pi/4),
-                    (4.125, 1.75, np.pi/2), (4.125, 0.625, -np.pi/2), (4.25, -1.25, 3*np.pi/4),
-                    (3.0, -1.25, np.pi/4), (4.25, -2.5, np.pi), (4.25, -4.0, np.pi),
-                    (3.0, -2.25, -np.pi/2), (0.125, -4.5, np.pi/4), (2.0, -4.5, 3*np.pi/4),
-                    (0.375, -2.625, -3*np.pi/4), (-1.625, -2.625, -np.pi/4), (-3.0, -4.5, 0),
-                    (-4.375, -4.5, np.pi/2), (-4.5, -1.875, -np.pi/4), (-2.625, -1.875, -3*np.pi/4),
-                    (0, 0, 0), (3.0, -4.5, np.pi/2)]
-    
-    # pick a robot spawn:
-    x, y, yaw = robot_spawns[np.random.randint(0, len(robot_spawns))]
 
     # launch arguments:
-    use_random_spawn = LaunchConfiguration('use_random_spawn')
     world = PathJoinSubstitution([pkg_path, 'worlds', LaunchConfiguration('world_name')])
     use_teleop = LaunchConfiguration('use_teleop')
-
-    use_random_spawn_arg = DeclareLaunchArgument(
-        'use_random_spawn',
-        default_value = 'false',
-        description = 'Spawn the robot in a random position if true'
-    )
 
     world_arg = DeclareLaunchArgument(
         'world_name',
@@ -85,7 +60,7 @@ def generate_launch_description():
     arg_log = LogInfo(
         condition = None,
         msg = ['\nworld_name: ', LaunchConfiguration('world_name'),
-               ' | use_random_spawn: ', LaunchConfiguration('use_random_spawn')]
+               ' | use_teleop: ', LaunchConfiguration('use_teleop')]
     )
 
     # nodes:
@@ -106,15 +81,6 @@ def generate_launch_description():
                         .items()
              )
     
-    random_spawn_entity = Node(package = 'gazebo_ros', executable = 'spawn_entity.py',
-                        arguments = ['-topic', 'robot_description',
-                                   '-entity', 'X3',
-                                   '-x', str(x),
-                                   '-y', str(y),
-                                   '-Y', str(yaw)],
-                        output = 'screen',
-                        condition = IfCondition(use_random_spawn))
-    
     spawn_entity = Node(package = 'gazebo_ros', executable = 'spawn_entity.py',
                         arguments = ['-topic', 'robot_description',
                                    '-entity', 'X3',
@@ -122,7 +88,7 @@ def generate_launch_description():
                                    '-y', '0.0',
                                    '-Y', '0.0'],
                         output = 'screen',
-                        condition = UnlessCondition(use_random_spawn))
+                    )
 
     joy_node = Node(
         package = 'joy',
@@ -142,14 +108,11 @@ def generate_launch_description():
 
     return LaunchDescription([
         world_arg,
-        use_random_spawn_arg,
         use_teleop_arg,
         arg_log,
 
         robot_state_publisher,
         gazebo, 
-
-        random_spawn_entity,
         spawn_entity,
         
         joy_node, 
