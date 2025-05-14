@@ -1,4 +1,4 @@
-image: small_room_map.pgm
+image: /home/matthew/bt_ws/install/sim_bt/share/sim_bt/maps/small_room_map.pgm
 mode: trinary
 resolution: 0.025
 origin: [-2.81, -1.69, 0]
