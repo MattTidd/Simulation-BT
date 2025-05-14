@@ -61,6 +61,13 @@ def generate_launch_description():
     # launch arguments:
     use_random_spawn = LaunchConfiguration('use_random_spawn')
     world = PathJoinSubstitution([pkg_path, 'worlds', LaunchConfiguration('world_name')])
+    use_teleop = LaunchConfiguration('use_teleop')
+
+    use_random_spawn_arg = DeclareLaunchArgument(
+        'use_random_spawn',
+        default_value = 'false',
+        description = 'Spawn the robot in a random position if true'
+    )
 
     world_arg = DeclareLaunchArgument(
         'world_name',
@@ -68,10 +75,10 @@ def generate_launch_description():
         description = 'Name of the world to be launched, within the Worlds folder'
     )
 
-    use_random_spawn_arg = DeclareLaunchArgument(
-        'use_random_spawn',
+    use_teleop_arg = DeclareLaunchArgument(
+        'use_teleop',
         default_value = 'false',
-        description = 'Spawn the robot in a random position if true'
+        description = 'Use teleoperation if true'
     )
 
     # logging arguments:
@@ -121,7 +128,8 @@ def generate_launch_description():
         package = 'joy',
         executable = 'joy_node',
         name = 'joy_node',
-        parameters = [joy_params_path]
+        parameters = [joy_params_path],
+        condition = IfCondition(use_teleop)
     )
 
     teleop_node = Node(
@@ -129,11 +137,13 @@ def generate_launch_description():
         executable = 'teleop_node',
         name = 'teleop_node',
         parameters = [joy_params_path],
+        condition = IfCondition(use_teleop)
     )
 
     return LaunchDescription([
         world_arg,
         use_random_spawn_arg,
+        use_teleop_arg,
         arg_log,
 
         robot_state_publisher,
