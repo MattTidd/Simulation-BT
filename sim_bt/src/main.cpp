@@ -3,6 +3,8 @@
 #include "sim_bt/get_locations_node.hpp"
 #include "sim_bt/at_task_n_node.hpp"
 #include "sim_bt/go_to_n_node.hpp"
+#include "sim_bt/check_locations_node.hpp"
+#include "sim_bt/pop_location_node.hpp"
 #include <ament_index_cpp/get_package_share_directory.hpp>
 
 int main(int argc, char** argv) {
