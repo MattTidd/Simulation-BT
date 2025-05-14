@@ -13,7 +13,13 @@
 # limitations under the License.
 
 """
-This launch file launches the BT executable for a simple inspection task.
+This launch file launches:
+- Gazebo Classic, for simulation of both the robot and sensor data
+- The BT executable node, for a simple inspection task
+- Robot State Publisher, for facillitating the TF handling
+- Nav2 for localization via AMCL, path planning, and navigation
+- RVIZ for visualization of the costmap, robot path and state
+
 """
 
 from launch import LaunchDescription
@@ -41,11 +47,10 @@ def generate_launch_description():
         description = 'Whether to use sim time or not, defaults to false'
     )
 
-    print(f'setting paths!')
     pkg_path = get_package_share_directory("sim_bt")
     nav2_params_path = os.path.join(pkg_path, 'params', 'nav2_params.yaml')
+    rviz_config_path = os.path.join(get_package_share_directory('sim_robot_description'), 'config', 'rviz_config.rviz')
     map_file = PathJoinSubstitution([pkg_path, 'maps', map_name])
-    print(f'map path is: {map_file}')
 
     # nodes:
     print(f'instantiating nodes!')
@@ -69,11 +74,26 @@ def generate_launch_description():
             {'task_count' : int(3)}]
     )
 
+    gazebo_and_rsp_nodes = IncludeLaunchDescription(PythonLaunchDescriptionSource(
+        [os.path.join(get_package_share_directory('sim_robot_description'), 'launch', 'gazebo.launch.py')]),
+        launch_arguments = {'world_name' : 'small_room.world'}
+        )
+    
+    rviz_node = Node(
+        package = 'rviz2',
+        executable = 'rviz2',
+        name = 'rviz2',
+        output = 'screen',
+        arguments = ['-d', rviz_config_path],
+        parameters = [{'use_sim_time': False}]
+    )
+
     print(f'launching!')
     return LaunchDescription([
         map_name_arg,
         use_sim_time_arg,
         
+        gazebo_and_rsp_nodes,
         nav2_bringup,
         bt_node
     ])
