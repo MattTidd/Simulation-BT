@@ -60,7 +60,9 @@ def generate_launch_description():
         [os.path.join(get_package_share_directory('nav2_bringup'), 'launch', 'bringup_launch.py')]),
         launch_arguments = {'map' : map_file,
                             'use_sim_time' : use_sim_time,
-                            'params_file' : nav2_params_path}.items()
+                            'params_file' : nav2_params_path,
+                            # 'log_level' : 'error'
+                            }.items()
     )
 
     bt_node = Node(
@@ -86,7 +88,6 @@ def generate_launch_description():
         executable = 'rviz2',
         name = 'rviz2',
         output = 'screen',
-        arguments = ['-d', rviz_config_path],
         parameters = [{'use_sim_time': use_sim_time}]
     )
 
@@ -96,7 +97,7 @@ def generate_launch_description():
         use_sim_time_arg,
         
         gazebo_and_rsp_nodes,
-        rviz_node, 
         nav2_bringup,
+        # rviz_node,
         # bt_node
     ])
